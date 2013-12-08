@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,20 @@ namespace MaquinaTuringMulticintas
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void ShowCredits(object sender, RoutedEventArgs e)
+        {
+            string text = string.Empty;
+
+            using (FileStream file = new FileStream("../../Text/Credits.txt", FileMode.Open))
+            {
+                using (StreamReader reader = new StreamReader(file))
+                {
+                    text = reader.ReadToEnd();      
+                }
+            }
+            ContentBlock.Text = text;
         }
     }
 }

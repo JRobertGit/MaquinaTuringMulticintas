@@ -41,9 +41,9 @@
             
             <Button Content="Home" Style="{StaticResource NavButton}"></Button>
             <Button Grid.Column="1" Content="About..." Style="{StaticResource NavButton}"></Button>
-            <Button Grid.Column="2" Content="Credits" Style="{StaticResource NavButton}"></Button>
+            <Button x:Name="CreditsButton" Grid.Column="2" Content="Credits" Style="{StaticResource NavButton}" Click="ShowCredits"></Button>
             <ScrollViewer Grid.Row="1" Grid.ColumnSpan="3">
-                <TextBlock x:Name="ContentBlock"></TextBlock>
+                <StackPanel x:Name="Content"></StackPanel>
             </ScrollViewer>
 
         </Grid>
