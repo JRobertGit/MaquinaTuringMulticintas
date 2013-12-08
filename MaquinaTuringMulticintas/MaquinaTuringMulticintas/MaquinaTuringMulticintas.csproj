@@ -93,6 +93,18 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Text\Credits.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Text\About.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Text\Home.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Text\Instructions.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

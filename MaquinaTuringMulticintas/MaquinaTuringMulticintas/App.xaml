@@ -3,6 +3,88 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        
+        <Style TargetType="StackPanel" x:Key="HeaderStyle">
+            <Setter Property="Width" Value="Auto"></Setter>
+            <Setter Property="Height" Value="100"></Setter>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <SolidColorBrush Color="Purple"></SolidColorBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="StackPanel" x:Key="FooterStyle">
+            <Setter Property="Width" Value="Auto"></Setter>
+            <Setter Property="Height" Value="50"></Setter>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <SolidColorBrush Color="Purple"></SolidColorBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="Button" x:Key="ButtonAppStyle">
+            <Setter Property="Width" Value="300"></Setter>
+            <Setter Property="Height" Value="100"></Setter>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <SolidColorBrush Color="Purple"></SolidColorBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="BorderThickness" Value="0"></Setter>
+            <Setter Property="Margin">
+                <Setter.Value>
+                    <Thickness Bottom="1" Left="5" Right="0" Top="1" ></Thickness>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="FontSize" Value="25"></Setter>
+            <Setter Property="Foreground" Value="White"></Setter>
+        </Style>
+
+        <Style TargetType="Button" x:Key="NavButton">
+            <Setter Property="Height" Value="50"></Setter>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <SolidColorBrush Color="White"></SolidColorBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="BorderBrush">
+                <Setter.Value>
+                    <SolidColorBrush Color="Purple"></SolidColorBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="BorderThickness">
+                <Setter.Value>
+                    <Thickness Bottom="1"></Thickness>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="FontSize" Value="15"></Setter>
+            <Setter Property="Foreground" Value="Purple"></Setter>
+            <Setter Property="FontWeight" Value="Bold"></Setter>
+        </Style>
+        
+        <Style TargetType="TextBlock" x:Key="CopyBlock">
+            <Setter Property="Margin" Value="10"></Setter>
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="FontSize" Value="15"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+        </Style>
+        
+        <Style TargetType="TextBlock" x:Key="TittleStyle">
+            <Setter Property="FontSize" Value="20"></Setter>
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+            <Setter Property="Margin" Value="10"></Setter>
+            <Setter Property="FontWeight" Value="Bold"></Setter>
+        </Style>
+
+        <Style TargetType="TextBlock" x:Key="SubTittleStyle">
+            <Setter Property="FontSize" Value="15"></Setter>
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+            <Setter Property="Margin" Value="5"></Setter>
+        </Style>
+
     </Application.Resources>
 </Application>
