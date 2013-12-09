@@ -26,30 +26,65 @@ namespace MaquinaTuringMulticintas
         public MainWindow()
         {
             InitializeComponent();
+            //By default, we read the Home XML.
             ReadXMLDocument("Home");
         }
 
+        #region Interface Buttons' Methods.
+        /// <summary>
+        /// Tells the ReadXMLDocument method to read the Credits.xaml file.
+        /// </summary>
+        /// <param name="sender">CreditsButton</param>
+        /// <param name="e">OnClick EventArgs</param>
         private void ShowCredits(object sender, RoutedEventArgs e)
         {
             ReadXMLDocument("Credits");
         }
 
+        /// <summary>
+        /// Tells the ReadXMLDocument method to read the Home.xaml file.
+        /// </summary>
+        /// <param name="sender">CreditsButton</param>
+        /// <param name="e">OnClick EventArgs</param>
         private void ShowHome(object sender, RoutedEventArgs e)
         {
             ReadXMLDocument("Home");
         }
-        
+
+        /// <summary>
+        /// Tells the ReadXMLDocument method to read the About.xaml file.
+        /// </summary>
+        /// <param name="sender">CreditsButton</param>
+        /// <param name="e">OnClick EventArgs</param>
         private void ShowAbout(object sender, RoutedEventArgs e)
         {
             ReadXMLDocument("About");
         }
-        
+
+        /// <summary>
+        /// Tells the ReadXMLDocument method to read the Instructions.xaml file.
+        /// </summary>
+        /// <param name="sender">CreditsButton</param>
+        /// <param name="e">OnClick EventArgs</param>
+        private void ShowInstructions(object sender, RoutedEventArgs e)
+        {
+            ReadXMLDocument("Instructions");
+        }
+        #endregion
+
+        #region Control Methods
+        /// <summary>
+        /// Reads the specified XML document and displays its information.
+        /// </summary>
+        /// <param name="pageName">XML document's name.</param>
         private void ReadXMLDocument(string pageName) 
         {
+            //Errase current information display.
             TitleTextBox.Text = string.Empty;
             Style contentStyle = ContentTextBlock.Style;
             Content.Children.Remove(ContentTextBlock);
 
+            //Start reading the XML document
             XmlDocument doc = new XmlDocument();
             doc.Load("../../XMLDocuments/" + pageName + ".xml");
 
@@ -59,9 +94,12 @@ namespace MaquinaTuringMulticintas
             XmlNodeList content = doc.GetElementsByTagName("Content");
             string contentStr = content[0].InnerText;
 
+            //Display the XML doument Information.
             TitleTextBox.Text = title;
             ContentTextBlock = new TextBlock { Text = contentStr, Style = contentStyle };
             Content.Children.Add(ContentTextBlock);
-        }    
+        }
+        #endregion
+
     }
 }
