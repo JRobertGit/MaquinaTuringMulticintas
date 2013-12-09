@@ -153,7 +153,7 @@ namespace TuringMachineMT
         /// Gets the current status name.
         /// </summary>
         /// <returns>The current status name.</returns>
-        public string GetCurrentStatusName()
+        public string GetCurrentStateName()
         {
             return this.currentState.GetName();
         }
@@ -223,7 +223,7 @@ namespace TuringMachineMT
         /// <summary>
         /// Executes the Turing machine step by step in order to recognize the input string.
         /// </summary>
-        /// <returns>If the machine has finished recognizing the string.</returns>
+        /// <returns>If the machine has needs to execute another step.</returns>
         public bool NextStep()
         {
             if (this.machineStatus == MachineStatus.WAITING &&
@@ -232,24 +232,28 @@ namespace TuringMachineMT
             {
                 this.machineStatus = MachineStatus.RUNNING;
                 this.currentState = this.currentState.NextStep(this.tapes);
+                if (this.currentState == null)
+                {
+                    this.currentState = this.formalDescription.GetRejectState();
+                }
             }
 
             if (this.currentState.Equals(this.formalDescription.GetAcceptState()))
             {
                 this.machineStatus = MachineStatus.ACCEPTED;
-                return true;
+                return false;
             }
             else if (this.currentState.Equals(this.formalDescription.GetRejectState()))
             {
                 this.machineStatus = MachineStatus.REJECTED;
-                return true;
+                return false;
             }
             else
             {
                 this.machineStatus = MachineStatus.WAITING;
             }
 
-            return false;
+            return true;
         }
 
         #endregion

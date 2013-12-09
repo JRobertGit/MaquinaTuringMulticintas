@@ -19,6 +19,7 @@ namespace TuringMachineMTConsoleApplication
         const int WINDOW_HEIGHT = HEADER_SIZE + CONTENT_SIZE + FOOTER_SIZE + 2;
 
         static string[] ScreenBuffer;
+        static string[] ScreenBufferBackUp;
         static int ContentOffset = 0;
         static string ProgramTitle;
         static string ProgramSubtitle;
@@ -98,7 +99,7 @@ namespace TuringMachineMTConsoleApplication
             ScreenClearContent();
             ScreenWriteContent(0, " *** Load Turing machine from file ***");
             ScreenWriteContent(2, " In order to load a machine you must specify a file.");
-            ScreenWriteContent(3, " You can exit at any time by pressing 'x'.");
+            ScreenWriteContent(3, " You can return to the main menu at any time by pressing 'r'.");
             
             while (true)
             {
@@ -108,7 +109,7 @@ namespace TuringMachineMTConsoleApplication
 
                 fileName = Console.ReadLine();
                 
-                if (fileName.Equals("x")) return;
+                if (fileName.Equals("r")) return;
 
                 if (!System.IO.File.Exists(fileName)) validOption = false;
                 else validOption = true;
@@ -168,12 +169,12 @@ namespace TuringMachineMTConsoleApplication
                 ScreenWriteContent(19, " 4. Edit machine.");
 
                 if (!validOption) ScreenWriteContent(CONTENT_SIZE - 1, " The selected option is not valid... ");
-                ScreenWriteFooter(" Enter the selected option (Press 'x' to exit): ");
+                ScreenWriteFooter(" Enter the selected option (Press 'r' to return): ");
                 ScreenFlush();
 
                 option = Console.ReadLine();
                 
-                if (option.Equals("x")) return;
+                if (option.Equals("r")) return;
 
                 switch (option)
                 {
@@ -187,6 +188,7 @@ namespace TuringMachineMTConsoleApplication
                         break;
                     case "3":
                         validOption = true;
+                        StepByStep(machineDescription);
                         break;
                     case "4":
                         validOption = true;
@@ -211,8 +213,9 @@ namespace TuringMachineMTConsoleApplication
                 }
             }
 
-            int pages = transitions.Count / 10;
-            if (transitions.Count % 10 != 0 && pages > 0) pages++;
+            int elementsInPage = 10;
+            int pages = transitions.Count / elementsInPage;
+            if (transitions.Count % elementsInPage != 0 && pages > 0) pages++;
 
             int currentPage = 0;
             bool validOption = true;
@@ -223,28 +226,34 @@ namespace TuringMachineMTConsoleApplication
             
             while (true)
             {
-                for (int i = 0; i < 10; i++ )
+                for (int i = 0; i < elementsInPage; i++ )
                 {
-                    if (currentPage * 10 + i >= transitions.Count)
+                    if (currentPage * elementsInPage + i >= transitions.Count)
                         break;
-                    ScreenWriteContent(i + 2,string.Format(" {0}", transitions[currentPage * 10 + i]));
+                    ScreenWriteContent(i + 2,string.Format(" {0}", transitions[currentPage * elementsInPage + i]));
                 }
 
                 if (pages > 0)
                 {
                     if (currentPage == 0)
+                    {
                         ScreenWriteContent(13, " Press 'n' for next page");
-                    else if (currentPage == pages)
+                        ScreenWriteContent(14, string.Empty);
+                    }
+                    else if (currentPage == pages - 1)
+                    {
                         ScreenWriteContent(13, " Press 'p' for prev page");
+                        ScreenWriteContent(14, string.Empty);
+                    }
                     else
                     {
                         ScreenWriteContent(13, " Press 'n' for next page");
-                        ScreenWriteContent(13, " Press 'n' for next page");
+                        ScreenWriteContent(14, " Press 'p' for prev page");
                     }
                 }
 
                 if (!validOption) ScreenWriteContent(CONTENT_SIZE - 1, " The selected option is not valid... ");
-                ScreenWriteFooter(" Enter the selected option (Press 'x' to exit): ");
+                ScreenWriteFooter(" Enter the selected option (Press 'r' to return): ");
                 ScreenFlush();
 
                 option = Console.ReadLine();
@@ -254,7 +263,7 @@ namespace TuringMachineMTConsoleApplication
                 switch (option)
                 {
                     case "n":
-                        if (pages > 0 && currentPage < pages)
+                        if (pages > 0 && currentPage < pages - 1)
                         {
                             validOption = true;
                             currentPage++;
@@ -297,7 +306,7 @@ namespace TuringMachineMTConsoleApplication
             TuringMachine machine;
             try
             {
-                machine = new TuringMachine(inputString, WINDOW_WIDTH / 5, machineDescription);
+                machine = new TuringMachine(inputString, 11, machineDescription);
             }
             catch
             {
@@ -315,11 +324,262 @@ namespace TuringMachineMTConsoleApplication
             ScreenFlush();
             machine.RunAll();
             ScreenWriteContent(9, string.Format(" The input string was {0}!", machine.GetMachineStatus()));
-            
-            ScreenWriteFooter(" Press ENTER to continue:");
+            ScreenWriteContent(22, " Note: For showing the tapes press 's'.");
+
+            bool validOption = true;
+            string option = string.Empty;
+            while(true)
+            {
+                if (!validOption) ScreenWriteContent(CONTENT_SIZE - 1, " The selected option is not valid... ");
+                ScreenWriteFooter(" Enter the selected option (Press 'r' to return): ");
+                ScreenFlush();
+
+                option = Console.ReadLine();
+
+                if (option.Equals("r")) return;
+                
+                switch(option)
+                {
+                    case "s":
+                        validOption = true;
+                        ScreenSaveToBackup();
+                        ShowTapes(machine);
+                        ScreenRestoreFromBackup();
+                        ScreenFlush();
+                        break;
+                    default:
+                        validOption = false;
+                        break;
+                }
+            }
+        }
+
+        static void StepByStep(FormalDescription machineDescription)
+        {
+            string inputString = string.Empty;
+            int elementsPerPage = 3;
+
+            ScreenClearContent();
+            ScreenWriteContent(0, " *** Step by Step Run ***");
+            ScreenWriteContent(2, string.Format(" Valid input alphabet: {0}", machineDescription.GetInputAlphabetAsString()));
+            ScreenWriteContent(4, " Waiting for input...");
+            ScreenWriteContent(22, string.Format(" Note: The program will only show the first {0} tapes.", elementsPerPage));
+            ScreenWriteFooter(" Enter the input string:");
+            ScreenFlush();
+            inputString = Console.ReadLine();
+
+            TuringMachine machine;
+            try
+            {
+                machine = new TuringMachine(inputString, 11, machineDescription);
+            }
+            catch
+            {
+                ScreenWriteContent(5, " INVALID input detected...");
+                ScreenWriteContent(7, " The input symbols does not belong to the input alphabet.");
+                ScreenWriteContent(8, " The machine will exit.");
+                ScreenWriteFooter(" Press ENTER to continue:");
+                ScreenFlush();
+                Console.ReadLine();
+                return;
+            }
+
+            ScreenWriteContent(6, " The input was validated!");
+            ScreenWriteFooter(" Press ENTER to start the machine: ");
             ScreenFlush();
             Console.ReadLine();
-            return;
+
+            ScreenClearContent();
+            ScreenWriteContent(0, " *** Step by Step Run ***");
+            ScreenWriteContent(1, string.Format(" Running machine for string '{0}'...", inputString));
+            ScreenWriteContent(3, " Note: The 'H' above each tape indicates the head position");
+
+            do
+            {
+                ScreenWriteContent(5, FormatToLeft(string.Format("Current state: {0} ", machine.GetCurrentStateName())));
+
+                string[][] HeadAndTapes = FormatTapes(machine, 11);
+                string[] HeadsStr = HeadAndTapes[0];
+                string[] TapesStr = HeadAndTapes[1];
+
+                for (int i = 0; i < elementsPerPage; i++)
+                {
+                    if (i >= TapesStr.Length)
+                        break;
+                    ScreenWriteContent(3 * i + 7, string.Format("          \t{0}", HeadsStr[i]));
+                    ScreenWriteContent(3 * i + 8, string.Format(" Tape {0}:\t{1}", i, TapesStr[i]));
+                }
+
+                ScreenWriteFooter(" Please wait for the machine to finish...");
+                ScreenFlush();
+                System.Threading.Thread.Sleep(500);
+
+            } while (machine.NextStep());
+
+            ScreenWriteContent(16,CenterStringWithChar(' ', machine.GetMachineStatus().ToString()));
+            ScreenWriteContent(22, " Note: For showing all the final tapes press 's'.");
+
+            bool validOption = true;
+            string option = string.Empty;
+            while (true)
+            {
+                if (!validOption) ScreenWriteContent(CONTENT_SIZE - 1, " The selected option is not valid... ");
+                ScreenWriteFooter(" Enter the selected option (Press 'r' to return): ");
+                ScreenFlush();
+
+                option = Console.ReadLine();
+
+                if (option.Equals("r")) return;
+
+                switch (option)
+                {
+                    case "s":
+                        validOption = true;
+                        ScreenSaveToBackup();
+                        ShowTapes(machine);
+                        ScreenRestoreFromBackup();
+                        ScreenFlush();
+                        break;
+                    default:
+                        validOption = false;
+                        break;
+                }
+            }
+        }
+
+        static void ShowTapes(TuringMachine machine)
+        {
+            string[][] HeadAndTapes = FormatTapes(machine, 11);
+            string[] HeadsStr = HeadAndTapes[0];
+            string[] TapesStr = HeadAndTapes[1];
+            int elementsPerPage = 5;
+            int pages = TapesStr.Length / elementsPerPage;
+            int currentPage = 0;
+            if (TapesStr.Length % elementsPerPage != 0 && pages > 0) pages++;
+
+            bool validOption = true;
+            string option = string.Empty;
+            while (true)
+            {
+                ScreenClearContent();
+                ScreenWriteContent(0, " *** Final Machine Tapes *** ");
+                ScreenWriteContent(2, " Note: The 'H' above each tape indicates the head position");
+
+                for (int i = 0; i < elementsPerPage; i++)
+                {
+                    if (currentPage * elementsPerPage + i >= TapesStr.Length)
+                        break;
+                    ScreenWriteContent(3 * i + 4, string.Format("          \t{0}", HeadsStr[currentPage * elementsPerPage + i]));
+                    ScreenWriteContent(3 * i + 5, string.Format(" Tape {0}:\t{1}", currentPage * elementsPerPage + i, TapesStr[currentPage * elementsPerPage + i]));
+                }
+
+                if (pages > 0)
+                {
+                    if (currentPage == 0)
+                    {
+                        ScreenWriteContent(22, " Press 'n' for next page");
+                        ScreenWriteContent(21, string.Empty);
+                    }
+                    else if (currentPage == pages - 1)
+                    {
+                        ScreenWriteContent(22, " Press 'p' for prev page");
+                        ScreenWriteContent(21, string.Empty);
+                    }
+                    else
+                    {
+                        ScreenWriteContent(21, " Press 'n' for next page");
+                        ScreenWriteContent(22, " Press 'p' for prev page");
+                    }
+                }
+
+                if (!validOption) ScreenWriteContent(CONTENT_SIZE - 1, " The selected option is not valid... ");
+                ScreenWriteFooter(" Enter the selected option (Press 'r' to return): ");
+                ScreenFlush();
+
+                option = Console.ReadLine();
+
+                if (option.Equals("r")) return;
+
+                switch (option)
+                {
+                    case "n":
+                        if (pages > 0 && currentPage < pages - 1)
+                        {
+                            validOption = true;
+                            currentPage++;
+                        }
+                        else
+                        {
+                            validOption = false;
+                        }
+                        break;
+                    case "p":
+                        if (pages > 0 && currentPage > 0)
+                        {
+                            validOption = true;
+                            currentPage--;
+                        }
+                        else
+                        {
+                            validOption = false;
+                        }
+                        break;
+                    default:
+                        validOption = false;
+                        break;
+                }
+            }
+
+        }
+
+        static string[][] FormatTapes(TuringMachine machine, int SmallestSize)
+        {
+            int numberOfTapes = machine.GetFormalDescription().GetNumberOfTapes();
+            string[] TapesStr = new string[numberOfTapes];
+            string[] HeadStr = new string[numberOfTapes];
+            string[][] HeadAndTape = new string[2][];
+
+            for (int i = 0; i < numberOfTapes; i++)
+            {
+                char[] tape = machine.GetTapeContent(i);
+                int head = machine.GetHeadLocation(i);
+
+                string unformattedTape;
+                if (head > SmallestSize - 1)
+                {
+                    unformattedTape = new string(tape, head - SmallestSize, SmallestSize);
+                    head = SmallestSize - 1;
+                }
+                else
+                    unformattedTape = new string(tape, 0, SmallestSize);
+
+                string formattedTape = string.Empty;
+                string formattedHead = string.Empty;
+                for (int j = 0; j < unformattedTape.Length; j++)
+                {
+                    if (j == 0)
+                        formattedTape = string.Format("| ... | {0} |", unformattedTape[j]);
+                    else
+                        formattedTape = string.Format("{0} {1} |", formattedTape, unformattedTape[j]);
+
+                    if (j == head && j == 0)
+                        formattedHead = string.Format("        H  ");
+                    else if (j == head)
+                        formattedHead = string.Format("{0} H  ", formattedHead);
+                    else if (j != head && j == 0)
+                        formattedHead = string.Format("           ");
+                    else
+                        formattedHead = string.Format("{0}    ", formattedHead);
+                }
+                
+                TapesStr[i] = string.Format("{0} ... |", formattedTape);
+                HeadStr[i] = formattedHead;
+            }
+
+            HeadAndTape[0] = HeadStr;
+            HeadAndTape[1] = TapesStr;
+
+            return HeadAndTape;
         }
 
         #region FormatHelpers
@@ -329,11 +589,28 @@ namespace TuringMachineMTConsoleApplication
             Console.SetBufferSize(BUFFER_WIDTH, BUFFER_HEIGHT);
             Console.SetWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
             ScreenBuffer = new string[HEADER_SIZE + CONTENT_SIZE + FOOTER_SIZE];
+            ScreenBufferBackUp = new string[HEADER_SIZE + CONTENT_SIZE + FOOTER_SIZE];
 
             ProgramTitle = CenterStringWithChar('*', " Computational Theory - Final Project ");
             ProgramSubtitle = CenterStringWithChar(' ', " Multi-Tape Turing Machine ");
 
             SetHeader();
+        }
+
+        static void ScreenSaveToBackup()
+        {
+            for(int i = 0; i < ScreenBuffer.Length; i++)
+            {
+                ScreenBufferBackUp[i] = ScreenBuffer[i];
+            }
+        }
+
+        static void ScreenRestoreFromBackup()
+        {
+            for (int i = 0; i < ScreenBuffer.Length; i++)
+            {
+                ScreenBuffer[i] = ScreenBufferBackUp[i];
+            }
         }
 
         static void ScreenClearContent()
