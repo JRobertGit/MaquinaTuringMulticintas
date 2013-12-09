@@ -2,7 +2,7 @@
 <Page Name="About">
   <Title>The project</Title>
   <Content>
-    This project was developed as part of the Computational Theory course, and it has the purpose to show the importance of Touring Machines, by simulating a Multi-track Touring Machine.
+    This project was developed as part of the Computational Theory course, and it has the purpose to show the importance of Turing Machines, by simulating a Multi-tape Turing Machine.
     
     This project was developed in Windows Prosentation Fundation (WPF), using C# and XAML.
     

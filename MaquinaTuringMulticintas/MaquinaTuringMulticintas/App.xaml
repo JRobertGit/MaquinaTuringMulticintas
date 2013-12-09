@@ -16,7 +16,7 @@
 
         <Style TargetType="StackPanel" x:Key="FooterStyle">
             <Setter Property="Width" Value="Auto"></Setter>
-            <Setter Property="Height" Value="50"></Setter>
+            <Setter Property="Height" Value="75"></Setter>
             <Setter Property="Background">
                 <Setter.Value>
                     <SolidColorBrush Color="Purple"></SolidColorBrush>
@@ -25,25 +25,22 @@
         </Style>
 
         <Style TargetType="Button" x:Key="ButtonAppStyle">
-            <Setter Property="Width" Value="300"></Setter>
-            <Setter Property="Height" Value="100"></Setter>
+            <Setter Property="Width" Value="200"></Setter>
+            <Setter Property="Height" Value="70"></Setter>
             <Setter Property="Background">
                 <Setter.Value>
                     <SolidColorBrush Color="Purple"></SolidColorBrush>
                 </Setter.Value>
             </Setter>
             <Setter Property="BorderThickness" Value="0"></Setter>
-            <Setter Property="Margin">
-                <Setter.Value>
-                    <Thickness Bottom="1" Left="5" Right="0" Top="1" ></Thickness>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="FontSize" Value="25"></Setter>
+            <Setter Property="Margin" Value="5"></Setter>
+            <Setter Property="FontSize" Value="15"></Setter>
             <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="FontWeight" Value="SemiBold"></Setter>
         </Style>
 
         <Style TargetType="Button" x:Key="NavButton">
-            <Setter Property="Height" Value="50"></Setter>
+            <Setter Property="Height" Value="25"></Setter>
             <Setter Property="Background">
                 <Setter.Value>
                     <SolidColorBrush Color="White"></SolidColorBrush>
@@ -65,7 +62,7 @@
         </Style>
         
         <Style TargetType="TextBlock" x:Key="CopyBlock">
-            <Setter Property="Margin" Value="1"></Setter>
+            <Setter Property="Margin" Value="10"></Setter>
             <Setter Property="Foreground" Value="White"></Setter>
             <Setter Property="FontSize" Value="15"></Setter>
             <Setter Property="HorizontalAlignment" Value="Center"></Setter>
@@ -99,7 +96,7 @@
             <Setter Property="Foreground" Value="White"></Setter>
             <Setter Property="HorizontalAlignment" Value="Center"></Setter>
             <Setter Property="Margin" Value="5"></Setter>
-            <Setter Property="Text" Value="Multi-track Touring Machine"></Setter>
+            <Setter Property="Text" Value="Multi-tape Turing Machine"></Setter>
         </Style>
         
         <Style TargetType="StackPanel" x:Key="ContentPanelStyle">
@@ -131,6 +128,51 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        
+        <Style TargetType="ListBox" x:Key="MyFDListStyle">
+            <Setter Property="ScrollViewer.CanContentScroll" Value="True"></Setter>
+            <Setter Property="BorderThickness">
+                <Setter.Value>
+                    <Thickness Left="1"></Thickness>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="BorderBrush" Value="Purple"></Setter>
+            <Setter Property="Margin" Value="5"></Setter>
+        </Style>
+        
+        <Style TargetType="TextBox" x:Key="MyFDElementStyle">
+            <Setter Property="FontSize" Value="20"></Setter>
+            <Setter Property="Foreground" Value="Purple"></Setter>
+            <Setter Property="TextWrapping" Value="Wrap"></Setter>
+            <Setter Property="BorderThickness" Value="0"></Setter>
+            <Setter Property="TextDecorations" Value="Underline"></Setter>
+        </Style>
 
+        <Style TargetType="TextBox" x:Key="MyFDIdStyle">
+            <Setter Property="FontSize" Value="15"></Setter>
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <SolidColorBrush Color="Purple"></SolidColorBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="BorderThickness" Value="0"></Setter>
+            <Setter Property="Width" Value="20"></Setter>
+            <Setter Property="TextAlignment" Value="Center"></Setter>
+            <Setter Property="VerticalAlignment" Value="Bottom"></Setter>
+        </Style>
+        
+        <DataTemplate x:Key="MyFormalDescriptionsTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <TextBox Style="{StaticResource MyFDIdStyle}" Text="{Binding ListNumber}" Margin="0, 0, 10, 10"></TextBox>
+                <TextBox Grid.Column="1" Style="{StaticResource MyFDElementStyle}" Text="{Binding Name}"></TextBox>
+            </Grid>
+        </DataTemplate>
+        
     </Application.Resources>
 </Application>

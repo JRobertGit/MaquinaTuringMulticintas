@@ -26,11 +26,17 @@ namespace MaquinaTuringMulticintas
     public partial class MainWindow : Window
     {
 
+        List<FormalDescriptionReference> MyFDSource;
+
         public MainWindow()
         {
             InitializeComponent();
-            //By default, we read the Home XML.
-            ReadXMLDocument("Home");
+            InitializeContent();
+        }
+
+        private void InitializeContent()
+        {
+            LoadMyFormalDescriptions();
         }
 
         #region Interface Buttons' Methods.
@@ -73,9 +79,40 @@ namespace MaquinaTuringMulticintas
         {
             ReadXMLDocument("Instructions");
         }
+        
+        /// <summary>
+        /// Tells LoadMyFormalDescriptions to execute.
+        /// </summary>
+        /// <param name="sender">MyFormalDescriptionsButton</param>
+        /// <param name="e">Click EventArgs</param>
+        private void ShowMyFD(object sender, RoutedEventArgs e)
+        {
+            LoadMyFormalDescriptions();
+        }
         #endregion
 
         #region Control Methods
+        /// <summary>
+        /// Loads and displays the current Formal Description files of the user.
+        /// </summary>
+        private void LoadMyFormalDescriptions()
+        {
+            XmlDocument temporalDoc = new XmlDocument();
+            MyFDSource = new List<FormalDescriptionReference>();
+            int elementNumber = 0;
+
+            foreach (string file in Directory.GetFiles("../../Formal Descriptions", "*.xml"))
+            {
+                temporalDoc.Load(file);
+                string name = temporalDoc.GetElementsByTagName("FormalDescription")[0].Attributes.GetNamedItem("Name").Value;
+                MyFDSource.Add(new FormalDescriptionReference { ListNumber = ++elementNumber, Name = name, FilePath = file });
+            }
+
+            MyFDListBox.ItemsSource = MyFDSource;
+            ContentViewer.Visibility = Visibility.Collapsed;
+            MyFDListBox.Visibility = Visibility.Visible;
+        }
+
         /// <summary>
         /// Reads the specified XML document and displays its information.
         /// </summary>
@@ -101,6 +138,8 @@ namespace MaquinaTuringMulticintas
             TitleTextBox.Text = title;
             ContentTextBlock = new TextBlock { Text = contentStr, Style = contentStyle };
             Content.Children.Add(ContentTextBlock);
+            MyFDListBox.Visibility = Visibility.Collapsed;
+            ContentViewer.Visibility = Visibility.Visible;
         }
 
         /// <summary>
@@ -110,11 +149,11 @@ namespace MaquinaTuringMulticintas
         /// <param name="e">Click EventArgs</param>
         private void SendMail(object sender, RoutedEventArgs e)
         {
-            Process.Start("mailto:j.roberto-torres@hotmail.com, mauriciocunille@hotmail.com?subject=Multi-track Touring Machine");
+            Process.Start("mailto:j.roberto-torres@hotmail.com, mauriciocunille@hotmail.com?subject=Multi-tape Turing Machine");
         }
         
         /// <summary>
-        /// Loads the xml file that contains the Multi-track Touring Machine's Formal Description.
+        /// Loads the xml file that contains the Multi-tape Turing Machine's Formal Description.
         /// </summary>
         /// <param name="sender">LoadDescriptionButton</param>
         /// <param name="e">Click EventArgs</param>
@@ -132,12 +171,16 @@ namespace MaquinaTuringMulticintas
             {
                 fileName = openFileD.FileName;
                 FormalDescription description = new FormalDescription();
-                description.Load(fileName);
-                MessageBox.Show("Loaded");
+                try
+                {
+                    description.Load(fileName);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
         }
         #endregion
-
-
     }
 }

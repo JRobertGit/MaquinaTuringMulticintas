@@ -61,6 +61,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Classes\FormalDescriptionReference.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -114,10 +115,10 @@
     <Resource Include="XMLDocuments\Instructions.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="XMLDocuments\AiCAiExample.xml" />
+    <Resource Include="Formal Descriptions\AiCAiExample.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="XMLDocuments\BinaryPalindromeExample.xml" />
+    <Resource Include="Formal Descriptions\BinaryPalindromeExample.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
