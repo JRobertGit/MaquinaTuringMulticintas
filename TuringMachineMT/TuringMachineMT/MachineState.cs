@@ -11,11 +11,12 @@ namespace TuringMachineMT
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using System.Xml.Serialization;
 
     /// <summary>
     /// This class represents a state in the Turing machine.
     /// </summary>
-    public class MachineState
+    public class MachineState : IXmlSerializable
     {
         /// <summary>
         /// The number of states currently created.
@@ -150,6 +151,44 @@ namespace TuringMachineMT
         public override int GetHashCode()
         {
             return this.name.GetHashCode();
+        }
+
+        /// <summary>
+        /// Gets the XmlSchema.
+        /// </summary>
+        /// <returns>Returns null.</returns>
+        public System.Xml.Schema.XmlSchema GetSchema()
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// The ReadXml serialization method is not implemented.
+        /// </summary>
+        /// <param name="reader">The parameter is not being used.</param>
+        public void ReadXml(System.Xml.XmlReader reader)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// The WriteXml serialization method.
+        /// </summary>
+        /// <param name="writer">The xml writer.</param>
+        public void WriteXml(System.Xml.XmlWriter writer)
+        {
+            writer.WriteAttributeString("ID", this.stateID.ToString());
+            writer.WriteAttributeString("Name", this.name);
+
+            writer.WriteStartElement("Transitions");
+            foreach (Transition transition in this.transitions)
+            {
+                writer.WriteStartElement("Transition");
+                transition.WriteXml(writer);
+                writer.WriteEndElement();
+            }
+
+            writer.WriteEndElement();
         }
     }
 }

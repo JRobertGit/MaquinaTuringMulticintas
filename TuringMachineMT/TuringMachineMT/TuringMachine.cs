@@ -43,8 +43,7 @@ namespace TuringMachineMT
         /// <param name="inputString">The string to be recognized by the Turing machine.</param>
         /// <param name="tapesInitLength">The initial length of the tapes.</param>
         /// <param name="formalDescription">The formal description of the Turing machine.</param>
-        /// <param name="leftBounded">If the tapes are left-Bounded</param>
-        public TuringMachine(string inputString, int tapesInitLength, FormalDescription formalDescription, bool leftBounded)
+        public TuringMachine(string inputString, int tapesInitLength, FormalDescription formalDescription)
         {
             this.machineStatus = MachineStatus.WAITING;
 
@@ -63,7 +62,7 @@ namespace TuringMachineMT
             this.tapes = new Tape[this.formalDescription.GetNumberOfTapes()];
             for (int tapeNumber = 0; tapeNumber < this.tapes.Length; tapeNumber++)
             {
-                this.tapes[tapeNumber] = new Tape(tapesInitLength, this.formalDescription.GetBlankSymbol(), leftBounded);
+                this.tapes[tapeNumber] = new Tape(tapesInitLength, this.formalDescription.GetBlankSymbol(), this.formalDescription.IsLeftBounded());
             }
 
             this.tapes[0].WriteString(inputString);

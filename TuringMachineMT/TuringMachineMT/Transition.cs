@@ -11,11 +11,13 @@ namespace TuringMachineMT
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using System.Xml;
+    using System.Xml.Serialization;
 
     /// <summary>
     /// This class represents a transition between two states given input symbols.
     /// </summary>
-    public class Transition
+    public class Transition : IXmlSerializable
     {
         /// <summary>
         /// The next state of the Turing machine following this transition.
@@ -120,6 +122,51 @@ namespace TuringMachineMT
         {
             string inputConfiguration = new string(this.inputSymbols);
             return inputConfiguration.GetHashCode();
+        }
+
+        /// <summary>
+        /// Gets the XmlSchema.
+        /// </summary>
+        /// <returns>Returns null.</returns>
+        public System.Xml.Schema.XmlSchema GetSchema()
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// The ReadXml serialization method is not implemented.
+        /// </summary>
+        /// <param name="reader">The parameter is not being used.</param>
+        public void ReadXml(System.Xml.XmlReader reader)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// The WriteXml serialization method.
+        /// </summary>
+        /// <param name="writer">The xml writer.</param>
+        public void WriteXml(System.Xml.XmlWriter writer)
+        {
+            writer.WriteAttributeString("OutputState", this.outputState.GetName());
+
+            writer.WriteStartElement("InputSymbols");
+            foreach (char symbol in this.inputSymbols)
+            {
+                writer.WriteElementString("Symbol", symbol.ToString());
+            }
+
+            writer.WriteEndElement();
+
+            writer.WriteStartElement("TapeInstructions");
+            foreach (TapeInstruction instruction in this.tapeInstructions)
+            {
+                writer.WriteStartElement("TapeInstruction");
+                instruction.WriteXml(writer);
+                writer.WriteEndElement();
+            }
+
+            writer.WriteEndElement();
         }
     }
 }

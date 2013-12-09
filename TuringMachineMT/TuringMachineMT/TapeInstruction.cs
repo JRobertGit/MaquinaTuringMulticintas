@@ -11,12 +11,14 @@ namespace TuringMachineMT
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using System.Xml;
+    using System.Xml.Serialization;
 
     /// <summary>
     /// This class represents a tape instruction with a tape number, 
     /// the symbol to be written and the direction of the head movement.
     /// </summary>
-    public class TapeInstruction
+    public class TapeInstruction : IXmlSerializable
     {
         /// <summary>
         /// The tape that will write the symbol and move its head.
@@ -54,6 +56,35 @@ namespace TuringMachineMT
         {
             tapes[this.tapeID].WriteSymbol(this.outputSymbol);
             tapes[this.tapeID].MoveHead(this.headDirection);
+        }
+
+        /// <summary>
+        /// Gets the XmlSchema
+        /// </summary>
+        /// <returns>Returns null.</returns>
+        public System.Xml.Schema.XmlSchema GetSchema()
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// The ReadXml serialization method is not implemented.
+        /// </summary>
+        /// <param name="reader">The parameter is not being used.</param>
+        public void ReadXml(System.Xml.XmlReader reader)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// The WriteXml serialization method.
+        /// </summary>
+        /// <param name="writer">The xml writer.</param>
+        public void WriteXml(System.Xml.XmlWriter writer)
+        {
+            writer.WriteAttributeString("TapeID", this.tapeID.ToString());
+            writer.WriteAttributeString("OutputSymbol", this.outputSymbol.ToString());
+            writer.WriteAttributeString("HeadDirection", this.headDirection.ToString());
         }
 
         /// <summary>

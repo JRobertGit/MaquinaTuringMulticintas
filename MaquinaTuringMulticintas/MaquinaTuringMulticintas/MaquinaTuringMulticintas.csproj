@@ -104,6 +104,12 @@
   <ItemGroup>
     <Resource Include="XMLDocuments\About.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\TuringMachineMT\TuringMachineMT\TuringMachineMT.csproj">
+      <Project>{a30b5ce6-b6af-4e9a-9725-96cefce11ef7}</Project>
+      <Name>TuringMachineMT</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

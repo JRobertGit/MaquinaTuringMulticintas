@@ -152,6 +152,15 @@ namespace TuringMachineMT
         }
 
         /// <summary>
+        /// Gets the contents of the tape.
+        /// </summary>
+        /// <returns>The contents of the tape.</returns>
+        public char[] GetContents()
+        {
+            return this.content.ToArray();
+        }
+
+        /// <summary>
         /// Adds a cell to the tape increasing its length by one.
         /// </summary>
         private void AddCell()

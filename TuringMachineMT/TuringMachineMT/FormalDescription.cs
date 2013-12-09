@@ -11,11 +11,13 @@ namespace TuringMachineMT
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using System.Xml;
+    using System.Xml.Serialization;
 
     /// <summary>
     /// This class represents a multi-tape Turing machine formal description.
     /// </summary>
-    public class FormalDescription
+    public class FormalDescription : IXmlSerializable
     {
         /// <summary>
         /// The name of the Turing machine. Must be unique in order to save it.
@@ -68,6 +70,11 @@ namespace TuringMachineMT
         private char blankSymbol;
 
         /// <summary>
+        /// If the tapes are left-bounded.
+        /// </summary>
+        private bool leftBounded;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="FormalDescription"/> class.
         /// </summary>
         public FormalDescription()
@@ -81,6 +88,7 @@ namespace TuringMachineMT
             this.initialState = null;
             this.acceptState = null;
             this.rejectState = null;
+            this.leftBounded = true;
 
             this.blankSymbol = 'B';
             this.tapeAlphabet.Add(this.blankSymbol);
@@ -95,13 +103,15 @@ namespace TuringMachineMT
         /// <param name="tapeAlphabet">The tape alphabet minus the input alphabet.</param>
         /// <param name="inputAlphabet">The input alphabet.</param>
         /// <param name="blankSymbol">The blank symbol. Must be contained in the tape alphabet.</param>
+        /// <param name="leftBounded">If the tapes are left-bounded.</param>
         public FormalDescription(
             string name, 
             string description, 
             int numberOfTapes,
             HashSet<char> tapeAlphabet,
             HashSet<char> inputAlphabet,
-            char blankSymbol) : this()
+            char blankSymbol,
+            bool leftBounded) : this()
         {
             this.SetName(name);
             this.SetDescription(description);
@@ -109,6 +119,7 @@ namespace TuringMachineMT
             this.SetInputAlphabet(inputAlphabet);
             this.SetTapeAlphabet(tapeAlphabet);
             this.SetBlankSymbol(blankSymbol);
+            this.leftBounded = leftBounded;
         }
 
         /// <summary>
@@ -312,6 +323,15 @@ namespace TuringMachineMT
         }
 
         /// <summary>
+        /// Sets if the tapes are left-bounded.
+        /// </summary>
+        /// <param name="leftBounded">If the tapes are left-bounded.</param>
+        public void SetLeftBounded(bool leftBounded)
+        {
+            this.leftBounded = leftBounded;
+        }
+
+        /// <summary>
         /// Creates a new transition for the Turing machine.
         /// </summary>
         /// <param name="inputState">The input state of the transition.</param>
@@ -420,6 +440,15 @@ namespace TuringMachineMT
         }
 
         /// <summary>
+        /// Gets if the tapes are left-bounded.
+        /// </summary>
+        /// <returns>If the tapes are left-bounded.</returns>
+        public bool IsLeftBounded()
+        {
+            return this.leftBounded;
+        }
+
+        /// <summary>
         /// Verifies that the specified formal description for the Turing machine is valid.
         /// </summary>
         /// <returns>If the formal description is valid.</returns>
@@ -438,6 +467,196 @@ namespace TuringMachineMT
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Gets the schema.
+        /// </summary>
+        /// <returns>Xml schema.</returns>
+        public System.Xml.Schema.XmlSchema GetSchema()
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Reads a XML serialization
+        /// </summary>
+        /// <param name="reader">The xml reader.</param>
+        public void ReadXml(System.Xml.XmlReader reader)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Writes the XML serialization.
+        /// </summary>
+        /// <param name="writer">The xml writer.</param>
+        public void WriteXml(System.Xml.XmlWriter writer)
+        {
+            writer.WriteAttributeString("Name", this.name);
+            writer.WriteAttributeString("Description", this.description);
+            writer.WriteAttributeString("NumberOfTapes", this.numberOfTapes.ToString());
+            writer.WriteAttributeString("BlankSymbol", this.blankSymbol.ToString());
+            writer.WriteAttributeString("LeftBounded", this.leftBounded.ToString());
+
+            writer.WriteStartElement("InputAlphabet");
+            foreach (char symbol in this.inputAlphabet)
+            {
+                writer.WriteElementString("Symbol", symbol.ToString());
+            }
+
+            writer.WriteEndElement();
+
+            writer.WriteStartElement("TapeAlphabet");
+            foreach (char symbol in this.tapeAlphabet)
+            {
+                writer.WriteElementString("Symbol", symbol.ToString());
+            }
+
+            writer.WriteEndElement();
+
+            writer.WriteStartElement("StatesSet");
+            foreach (MachineState state in this.machineStates)
+            {
+                writer.WriteStartElement("MachineState");
+                state.WriteXml(writer);
+                writer.WriteEndElement();
+            }
+
+            writer.WriteEndElement();
+
+            writer.WriteStartElement("AcceptState");
+            writer.WriteAttributeString("StateName", this.acceptState.GetName());
+            writer.WriteEndElement();
+
+            writer.WriteStartElement("RejectState");
+            writer.WriteAttributeString("StateName", this.rejectState.GetName());
+            writer.WriteEndElement();
+
+            writer.WriteStartElement("InitialState");
+            writer.WriteAttributeString("StateName", this.initialState.GetName());
+            writer.WriteEndElement();
+        }
+
+        /// <summary>
+        /// Saves to an xml file
+        /// </summary>
+        /// <param name="fileName">File path of the new xml file</param>
+        public void Save(string fileName)
+        {
+            using (var writer = new System.IO.StreamWriter(fileName))
+            {
+                var serializer = new XmlSerializer(this.GetType());
+                serializer.Serialize(writer, this);
+                writer.Flush();
+            }
+        }
+
+        /// <summary>
+        /// Loads a formal description from an xml file;
+        /// </summary>
+        /// <param name="fileName">File path of the xml file to load.</param>
+        public void Load(string fileName)
+        {
+            try
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.Load(fileName);
+
+                XmlNodeList xmlFormalDescription = doc.GetElementsByTagName("FormalDescription");
+                XmlAttributeCollection xmlFormalDescriptionAttributes = xmlFormalDescription[0].Attributes;
+
+                this.SetName(xmlFormalDescriptionAttributes["Name"].Value);
+                this.SetDescription(xmlFormalDescriptionAttributes["Description"].Value);
+                this.SetNumberOfTapes(int.Parse(xmlFormalDescriptionAttributes["NumberOfTapes"].Value));
+                this.SetLeftBounded(bool.Parse(xmlFormalDescriptionAttributes["LeftBounded"].Value));
+
+                XmlNodeList xmlInputAlphabetSymbols = doc.GetElementsByTagName("InputAlphabet")[0].ChildNodes;
+                foreach (XmlNode xmlSymbol in xmlInputAlphabetSymbols)
+                {
+                    this.AddSymbolToInputAlphabet(xmlSymbol.InnerText[0]);
+                }
+
+                XmlNodeList xmlTapeAlphabetSymbols = doc.GetElementsByTagName("TapeAlphabet")[0].ChildNodes;
+                foreach (XmlNode xmlSymbol in xmlTapeAlphabetSymbols)
+                {
+                    this.AddSymbolToTapeAlphabet(xmlSymbol.InnerText[0]);
+                }
+
+                this.SetBlankSymbol(xmlFormalDescriptionAttributes["BlankSymbol"].Value[0]);
+
+                XmlNodeList xmlStateSet = doc.GetElementsByTagName("StatesSet")[0].ChildNodes;
+                foreach (XmlNode xmlState in xmlStateSet)
+                {
+                    this.AddMachineState(xmlState.Attributes["Name"].Value);
+                }
+
+                foreach (XmlNode xmlState in xmlStateSet)
+                {
+                    XmlNodeList xmlTransitions = xmlState.ChildNodes[0].ChildNodes;
+                    foreach (XmlNode xmlTransition in xmlTransitions)
+                    {
+                        string xmlOutputStateID = xmlTransition.Attributes["OutputState"].Value;
+                        string xmlInputStateID = xmlState.Attributes["Name"].Value;
+                        
+                        char[] xmlInputSymbolsChar = new char[this.numberOfTapes];
+                        XmlNodeList xmlInputSymbols = xmlTransition.ChildNodes[0].ChildNodes;
+                        for (int i = 0; i < xmlInputSymbols.Count; i++)
+                        {
+                            xmlInputSymbolsChar[i] = xmlInputSymbols[i].InnerText[0];
+                        }
+
+                        char[] xmlOutputSymbolsChar = new char[this.numberOfTapes];
+                        Tape.Direction[] xmlHeadDirection = new Tape.Direction[this.numberOfTapes];
+                        XmlNodeList xmlTapeInstructions = xmlTransition.ChildNodes[1].ChildNodes;
+                        foreach (XmlNode xmlTapeInstruction in xmlTapeInstructions)
+                        {
+                            int xmlTapeID = int.Parse(xmlTapeInstruction.Attributes["TapeID"].Value);
+                            xmlOutputSymbolsChar[xmlTapeID] = xmlTapeInstruction.Attributes["OutputSymbol"].Value[0];
+                            xmlHeadDirection[xmlTapeID] = (Tape.Direction)Enum.Parse(typeof(Tape.Direction), xmlTapeInstruction.Attributes["HeadDirection"].Value);
+                        }
+
+                        this.AddTransition(
+                            this.GetMachineState(xmlInputStateID),
+                            xmlInputSymbolsChar,
+                            this.GetMachineState(xmlOutputStateID),
+                            xmlOutputSymbolsChar,
+                            xmlHeadDirection);
+                    }
+                }
+
+                XmlNodeList xmlAcceptState = doc.GetElementsByTagName("AcceptState");
+                this.SetAcceptState(this.GetMachineState(xmlAcceptState[0].Attributes["StateName"].Value));
+
+                XmlNodeList xmlRejectState = doc.GetElementsByTagName("RejectState");
+                this.SetRejectState(this.GetMachineState(xmlRejectState[0].Attributes["StateName"].Value));
+
+                XmlNodeList xmlInitState = doc.GetElementsByTagName("InitialState");
+                this.SetInitialState(this.GetMachineState(xmlInitState[0].Attributes["StateName"].Value));
+            }
+            catch (Exception e)
+            {
+                throw new Exception("The xml file for the formal description is invalid.", e);
+            }
+        }
+
+        /// <summary>
+        /// Resets the formal description to default (not valid) values for loading
+        /// a new description.
+        /// </summary>
+        public void ResetFormalDescription()
+        {
+            this.name = string.Empty;
+            this.description = string.Empty;
+            this.numberOfTapes = 0;
+            this.machineStates = new HashSet<MachineState>();
+            this.inputAlphabet = new HashSet<char>();
+            this.tapeAlphabet = new HashSet<char>();
+            this.initialState = null;
+            this.acceptState = null;
+            this.rejectState = null;
+            this.leftBounded = true;
+            this.blankSymbol = ' ';
         }
     }
 }
