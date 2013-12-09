@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -14,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml;
+using TuringMachineMT;
 
 namespace MaquinaTuringMulticintas
 {
@@ -99,7 +102,42 @@ namespace MaquinaTuringMulticintas
             ContentTextBlock = new TextBlock { Text = contentStr, Style = contentStyle };
             Content.Children.Add(ContentTextBlock);
         }
+
+        /// <summary>
+        /// Initiallize send mail task.
+        /// </summary>
+        /// <param name="sender">ContactButton</param>
+        /// <param name="e">Click EventArgs</param>
+        private void SendMail(object sender, RoutedEventArgs e)
+        {
+            Process.Start("mailto:j.roberto-torres@hotmail.com, mauriciocunille@hotmail.com?subject=Multi-track Touring Machine");
+        }
+        
+        /// <summary>
+        /// Loads the xml file that contains the Multi-track Touring Machine's Formal Description.
+        /// </summary>
+        /// <param name="sender">LoadDescriptionButton</param>
+        /// <param name="e">Click EventArgs</param>
+        private void LoadFile(object sender, RoutedEventArgs e)
+        {
+            string fileName = string.Empty;
+
+            Microsoft.Win32.OpenFileDialog openFileD = new Microsoft.Win32.OpenFileDialog();
+            openFileD.DefaultExt = ".xml";
+            openFileD.Filter = "Xml Documents (*.xml)|*.xml";
+
+            Nullable<bool> result = openFileD.ShowDialog();
+
+            if (result == true)
+            {
+                fileName = openFileD.FileName;
+            }
+
+            FormalDescription description = new FormalDescription();
+            description.Load(fileName);
+        }
         #endregion
+
 
     }
 }

@@ -16,13 +16,13 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel x:Name="HeaderStackPanel" Grid.ColumnSpan="2" Style="{StaticResource HeaderStyle}">
-            <TextBlock x:Name="TitleTextBlock" Style="{StaticResource TittleStyle}" Text="Computational Theory Final Proyect"></TextBlock>
-            <TextBlock x:Name="SubTitleTextBlock" Style="{StaticResource SubTittleStyle}" Text="Multi-track Touring Machine"></TextBlock>
+            <TextBlock x:Name="TitleTextBlock" Style="{StaticResource TittleStyle}"></TextBlock>
+            <TextBlock x:Name="SubTitleTextBlock" Style="{StaticResource SubTittleStyle}"></TextBlock>
         </StackPanel>
         
         <StackPanel x:Name="MainMenuStackPanel" Grid.Row="1" VerticalAlignment="Center">
-            <Button Style="{StaticResource ButtonAppStyle}" Content="New File"></Button>
-            <Button Style="{StaticResource ButtonAppStyle}" Content="Load a File"></Button>
+            <Button Style="{StaticResource ButtonAppStyle}" Content="New Formal Description"></Button>
+            <Button x:Name="LoadDescriptionButton" Style="{StaticResource ButtonAppStyle}" Content="Load a Description" Click="LoadFile"></Button>
             <Button x:Name="InstructionsButtons" Style="{StaticResource ButtonAppStyle}" Content="Instructions" Click="ShowInstructions"></Button>
         </StackPanel>
         
@@ -52,7 +52,8 @@
         </Grid>
         
         <StackPanel x:Name="FooterStackPanel" Grid.Row="2" Grid.ColumnSpan="2" Style="{StaticResource FooterStyle}">
-            <TextBlock Style="{StaticResource CopyBlock}" Text="Copyright © 2013. All Rights Reserved"></TextBlock>
+            <TextBlock Style="{StaticResource CopyBlock}"></TextBlock>
+            <Button x:Name="ContactButton" Style="{StaticResource ContactButton}" Click="SendMail"></Button>
         </StackPanel>
         
     </Grid>
