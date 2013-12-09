@@ -271,6 +271,24 @@ namespace TuringMachineMT
         #region Getters
 
         /// <summary>
+        /// Gets the name of the machine.
+        /// </summary>
+        /// <returns>The name of the machine.</returns>
+        public string GetName()
+        {
+            return this.name;
+        }
+
+        /// <summary>
+        /// Gets the machine description.
+        /// </summary>
+        /// <returns>The machine description.</returns>
+        public string GetDescription()
+        {
+            return this.description;
+        }
+
+        /// <summary>
         /// Gets the number of tapes.
         /// </summary>
         /// <returns>The number of tapes.</returns>
@@ -286,6 +304,15 @@ namespace TuringMachineMT
         public HashSet<char> GetInputAlphabet()
         {
             return this.inputAlphabet;
+        }
+
+        /// <summary>
+        /// Gets the tape alphabet.
+        /// </summary>
+        /// <returns>The tape alphabet.</returns>
+        public HashSet<char> GetTapeAlphabet()
+        {
+            return this.tapeAlphabet;
         }
 
         /// <summary>
@@ -349,6 +376,81 @@ namespace TuringMachineMT
         public bool IsLeftBounded()
         {
             return this.leftBounded;
+        }
+
+        /// <summary>
+        /// Gets the machine states in a string of type {q0, q1,..., qn}.
+        /// </summary>
+        /// <returns>The machine states.</returns>
+        public string GetMachineStatesToString()
+        {
+            string machineStatesStr = string.Empty;
+            int machineStatesCounter = 0;
+
+            foreach (MachineState state in this.machineStates)
+            {
+                if (machineStatesCounter != this.machineStates.Count - 1)
+                {
+                    machineStatesStr = string.Format("{0}{1}, ", machineStatesStr, state.GetName());
+                    machineStatesCounter++;
+                } 
+                else
+                {
+                    machineStatesStr = string.Format("{0}{1}", machineStatesStr, state.GetName());
+                }
+            }
+
+            return "{" + machineStatesStr + "}";
+        }
+
+        /// <summary>
+        /// Gets the input alphabet in a string of type {s1, s2,..., sn}.
+        /// </summary>
+        /// <returns>The input alphabet.</returns>
+        public string GetInputAlphabetToString()
+        {
+            string inputAlphabetStr = string.Empty;
+            int inputAlphabetCounter = 0;
+
+            foreach (char symbol in this.inputAlphabet)
+            {
+                if (inputAlphabetCounter != this.inputAlphabet.Count - 1)
+                {
+                    inputAlphabetStr = string.Format("{0}{1}, ", inputAlphabetStr, symbol);
+                    inputAlphabetCounter++;
+                }
+                else
+                {
+                    inputAlphabetStr = string.Format("{0}{1}", inputAlphabetStr, symbol);
+                }
+            }
+
+            return "{" + inputAlphabetStr + "}";
+        }
+
+        /// <summary>
+        /// Gets the tape alphabet in a string of type {s1, s2,..., sn}.
+        /// </summary>
+        /// <returns>The tape alphabet.</returns>
+        public string GetTapeAlphabetToString()
+        {
+            string tapeAlphabetStr = string.Empty;
+            int tapeAlphabetCounter = 0;
+
+            foreach (char symbol in this.tapeAlphabet)
+            {
+                if (tapeAlphabetCounter != this.tapeAlphabet.Count - 1)
+                {
+                    tapeAlphabetStr = string.Format("{0}{1}, ", tapeAlphabetStr, symbol);
+                    tapeAlphabetCounter++;
+                }
+                else
+                {
+                    tapeAlphabetStr = string.Format("{0}{1}", tapeAlphabetStr, symbol);
+                }
+            }
+
+            return "{" + tapeAlphabetStr + "}";
         }
 
         #endregion
