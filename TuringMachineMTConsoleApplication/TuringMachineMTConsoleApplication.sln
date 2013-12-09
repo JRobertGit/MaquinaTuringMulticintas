@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TuringMachineMTConsoleApplication", "TuringMachineMTConsoleApplication.csproj", "{3F34D8E3-E3E8-41BC-80B5-28C2912A67CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TuringMachineMT", "..\TuringMachineMT\TuringMachineMT\TuringMachineMT.csproj", "{A30B5CE6-B6AF-4E9A-9725-96CEFCE11EF7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3F34D8E3-E3E8-41BC-80B5-28C2912A67CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F34D8E3-E3E8-41BC-80B5-28C2912A67CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F34D8E3-E3E8-41BC-80B5-28C2912A67CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F34D8E3-E3E8-41BC-80B5-28C2912A67CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A30B5CE6-B6AF-4E9A-9725-96CEFCE11EF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A30B5CE6-B6AF-4E9A-9725-96CEFCE11EF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A30B5CE6-B6AF-4E9A-9725-96CEFCE11EF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A30B5CE6-B6AF-4E9A-9725-96CEFCE11EF7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
