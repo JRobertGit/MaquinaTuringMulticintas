@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Page Name="About">
+  <Title>The project</Title>
+  <Content>
+    This project was developed as part of the Computational Theory course.
+    
+    The project has the purpose to show the importance of Touring Machines, by simulating a Multi-track Touring Machine.
+    
+    This project was developed in Windows Prosentation Fundation (WPF), using C# and XAML.
+    
+    For more information about the project, you can access the source code in GitHub.com .
+  </Content>
+</Page>

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Page Name="Home">
+  <Title>Welcome</Title>
+  <Content>
+    If is your first time using the Multi-track Touring Machine Simulator, we highly recomend you to read the instructions before starting.
+    
+    We also hope that you have a great time testing this software.
+    
+    Any doubt or query about this applications can be made by clicking the contact button.
+  </Content>
+</Page>

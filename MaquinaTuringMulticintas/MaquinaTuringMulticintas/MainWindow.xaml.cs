@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml;
 
 namespace MaquinaTuringMulticintas
 {
@@ -21,23 +22,50 @@ namespace MaquinaTuringMulticintas
     /// </summary>
     public partial class MainWindow : Window
     {
+
         public MainWindow()
         {
             InitializeComponent();
+            ReadXMLDocument("Home");
         }
 
         private void ShowCredits(object sender, RoutedEventArgs e)
         {
-            string text = string.Empty;
-
-            using (FileStream file = new FileStream("../../Text/Credits.txt", FileMode.Open))
-            {
-                using (StreamReader reader = new StreamReader(file))
-                {
-                    text = reader.ReadToEnd();      
-                }
-            }
-            ContentBlock.Text = text;
+            ReadXMLDocument("Credits");
         }
+
+        private void ShowHome(object sender, RoutedEventArgs e)
+        {
+            ReadXMLDocument("Home");
+        }
+        
+        private void ShowAbout(object sender, RoutedEventArgs e)
+        {
+            ReadXMLDocument("About");
+        }
+        
+        private void ReadXMLDocument(string pageName) 
+        {
+            TitleTextBox.Text = string.Empty;
+            Style contentStyle = ContentTextBlock.Style;
+            Content.Children.Remove(ContentTextBlock);
+
+            XmlDocument doc = new XmlDocument();
+            doc.Load("../../XMLDocuments/" + pageName + ".xml");
+
+            XmlNodeList page = doc.GetElementsByTagName("Title");
+            string title = page[0].InnerText;
+
+            XmlNodeList content = doc.GetElementsByTagName("Content");
+            string contentStr = content[0].InnerText;
+
+            TitleTextBox.Text = title;
+            ContentTextBlock = new TextBlock { Text = contentStr, Style = contentStyle };
+            Content.Children.Add(ContentTextBlock);
+        }
+
+        
+
+        
     }
 }

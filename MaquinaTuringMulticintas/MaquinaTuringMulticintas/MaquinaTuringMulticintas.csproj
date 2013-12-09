@@ -94,22 +94,15 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Text\Credits.txt" />
+    <Resource Include="XMLDocuments\Credits.xml">
+      <SubType>Designer</SubType>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Text\About.txt" />
+    <Resource Include="XMLDocuments\Home.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Text\Home.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Text\Instructions.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\TuringMachineMT\TuringMachineMT\TuringMachineMT.csproj">
-      <Project>{a30b5ce6-b6af-4e9a-9725-96cefce11ef7}</Project>
-      <Name>TuringMachineMT</Name>
-    </ProjectReference>
+    <Resource Include="XMLDocuments\About.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

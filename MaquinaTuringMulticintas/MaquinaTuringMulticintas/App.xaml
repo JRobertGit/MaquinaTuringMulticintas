@@ -86,9 +86,33 @@
             <Setter Property="Margin" Value="5"></Setter>
         </Style>
         
+        <Style TargetType="StackPanel" x:Key="ContentPanelStyle">
+            <Setter Property="Margin" Value="5"></Setter>
+        </Style>
+        
+        <Style TargetType="TextBox" x:Key="TitleStyle">
+            <Setter Property="FontSize" Value="25"></Setter>
+            <Setter Property="Foreground" Value="Purple"></Setter>
+            <Setter Property="FontWeight" Value="Bold"></Setter>
+            <Setter Property="TextAlignment" Value="Center"></Setter>
+            <Setter Property="Margin">
+                <Setter.Value>
+                    <Thickness Bottom="5"></Thickness>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="BorderThickness" Value="0"></Setter>
+        </Style>
+        
         <Style TargetType="TextBlock" x:Key="ContentStyle">
-            <Setter Property="FontSize" Value="20"></Setter>
-            <Setter Property="Margin" Value="10"></Setter>
+            <Setter Property="FontSize" Value="15"></Setter>
+            <Setter Property="Foreground" Value="Black"></Setter>
+            <Setter Property="TextWrapping" Value="Wrap"></Setter>
+            <Setter Property="TextAlignment" Value="Justify"></Setter>
+            <Setter Property="Margin">
+                <Setter.Value>
+                    <Thickness Right="10"></Thickness>
+                </Setter.Value>
+            </Setter>
         </Style>
 
     </Application.Resources>
