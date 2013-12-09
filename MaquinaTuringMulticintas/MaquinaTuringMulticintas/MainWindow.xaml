@@ -23,7 +23,7 @@
         <StackPanel x:Name="MainMenuStackPanel" Grid.Row="1" VerticalAlignment="Center">
             <Button Style="{StaticResource ButtonAppStyle}" Content="New File"></Button>
             <Button Style="{StaticResource ButtonAppStyle}" Content="Load a File"></Button>
-            <Button Style="{StaticResource ButtonAppStyle}" Content="Instructions"></Button>
+            <Button x:Name="InstructionsButtons" Style="{StaticResource ButtonAppStyle}" Content="Instructions" Click="ShowInstructions"></Button>
         </StackPanel>
         
         <Grid x:Name="ContentGrid" Grid.Row="1" Grid.Column="1" Margin="5">
