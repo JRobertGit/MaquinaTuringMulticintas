@@ -87,6 +87,69 @@ namespace TuringMachineMT
             return this.name;
         }
 
+        /// <summary>
+        /// Gets the state transitions in the form (Qi, I1, I2,..., Ik) -> (Qo, O1, O2,..., Ok, D1, D2,..., Dk)
+        /// </summary>
+        /// <returns>The state transitions.</returns>
+        public string[] GetTransitionsAsString()
+        {
+            string[] transitionsStr = new string[this.transitions.Count];
+
+            int counter = 0;
+            foreach (Transition transition in this.transitions)
+            {
+                string inputStateNameStr = this.name;
+                char[] inputSymbolsChar = transition.GetInputSymbols();
+                string outputStateNameStr = transition.GetOutputStateName();
+                char[] outputSymbolsChar = transition.GetOutputSymbols();
+                Tape.Direction[] headsDirections = transition.GetHeadsDirections();
+
+                string inputSymbolsStr = string.Empty;
+                for (int i = 0; i < inputSymbolsChar.Length; i++)
+                {
+                    if (i == inputSymbolsChar.Length - 1)
+                    {
+                        inputSymbolsStr = string.Format("{0}{1}", inputSymbolsStr, inputSymbolsChar[i]);
+                    } 
+                    else
+                    {
+                        inputSymbolsStr = string.Format("{0}{1}, ", inputSymbolsStr, inputSymbolsChar[i]);
+                    }
+                }
+
+                string outputSymbolsStr = string.Empty;
+                for (int i = 0; i < outputSymbolsChar.Length; i++)
+                {
+                    if (i == outputSymbolsChar.Length - 1)
+                    {
+                        outputSymbolsStr = string.Format("{0}{1}", outputSymbolsStr, outputSymbolsChar[i]);
+                    }
+                    else
+                    {
+                        outputSymbolsStr = string.Format("{0}{1}, ", outputSymbolsStr, outputSymbolsChar[i]);
+                    }
+                }
+
+                string headsDirectionsStr = string.Empty;
+                for (int i = 0; i < headsDirections.Length; i++)
+                {
+                    if (i == headsDirections.Length - 1)
+                    {
+                        headsDirectionsStr = string.Format("{0}{1}", headsDirectionsStr, headsDirections[i].ToString());
+                    }
+                    else
+                    {
+                        headsDirectionsStr = string.Format("{0}{1}, ", headsDirectionsStr, headsDirections[i].ToString());
+                    }
+                }
+
+                string transitionStr = string.Format("({0}, {1}) -> ({2}, {3}, {4})", inputStateNameStr, inputSymbolsStr, outputStateNameStr, outputSymbolsStr, headsDirectionsStr);
+                transitionsStr[counter++] = transitionStr;
+            }
+
+            return transitionsStr;
+        }
+
         #endregion
 
         #region AddMethods

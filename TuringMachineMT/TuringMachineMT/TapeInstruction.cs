@@ -56,6 +56,37 @@ namespace TuringMachineMT
 
         #endregion
 
+        #region Getters
+
+        /// <summary>
+        /// Gets the tape identifier.
+        /// </summary>
+        /// <returns>The tape ID.</returns>
+        public int GetTapeID()
+        {
+            return this.tapeID;
+        }
+
+        /// <summary>
+        /// Gets the output symbol.
+        /// </summary>
+        /// <returns>The output symbol.</returns>
+        public char GetOutputSymbol()
+        {
+            return this.outputSymbol;
+        }
+
+        /// <summary>
+        /// Gets the head direction.
+        /// </summary>
+        /// <returns>The head direction.</returns>
+        public Tape.Direction GetHeadDirection()
+        {
+            return this.headDirection;
+        }
+
+        #endregion
+
         #region Setters
 
         /// <summary>

@@ -57,6 +57,60 @@ namespace TuringMachineMT
 
         #endregion
 
+        #region Getters
+
+        /// <summary>
+        /// Gets the output state name.
+        /// </summary>
+        /// <returns>The state name.</returns>
+        public string GetOutputStateName()
+        {
+            return this.outputState.GetName();
+        }
+
+        /// <summary>
+        /// Gets the input symbols.
+        /// </summary>
+        /// <returns>The input symbols.</returns>
+        public char[] GetInputSymbols()
+        {
+            return this.inputSymbols;
+        }
+
+        /// <summary>
+        /// Gets the output symbols.
+        /// </summary>
+        /// <returns>The output symbols.</returns>
+        public char[] GetOutputSymbols()
+        {
+            char[] outputSymbols = new char[this.tapeInstructions.Count];
+
+            for (int i = 0; i < this.tapeInstructions.Count; i++)
+            {
+                outputSymbols[i] = this.tapeInstructions[i].GetOutputSymbol();
+            }
+
+            return outputSymbols;
+        }
+
+        /// <summary>
+        /// Gets the heads directions.
+        /// </summary>
+        /// <returns>The heads directions.</returns>
+        public Tape.Direction[] GetHeadsDirections()
+        {
+            Tape.Direction[] headDirections = new Tape.Direction[this.tapeInstructions.Count];
+
+            for (int i = 0; i < this.tapeInstructions.Count; i++)
+            {
+                headDirections[i] = this.tapeInstructions[i].GetHeadDirection();
+            }
+
+            return headDirections;
+        }
+
+        #endregion
+
         #region RunningMethods
 
         /// <summary>
