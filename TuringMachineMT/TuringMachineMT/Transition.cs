@@ -19,6 +19,8 @@ namespace TuringMachineMT
     /// </summary>
     public class Transition : IXmlSerializable
     {
+        #region Attributes
+
         /// <summary>
         /// The next state of the Turing machine following this transition.
         /// </summary>
@@ -35,6 +37,10 @@ namespace TuringMachineMT
         /// </summary>
         private List<TapeInstruction> tapeInstructions;
 
+        #endregion
+
+        #region Constructors
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Transition"/> class.
         /// </summary>
@@ -48,6 +54,10 @@ namespace TuringMachineMT
             this.inputSymbols = inputSymbols;
             this.tapeInstructions = tapeInstructions;
         }
+
+        #endregion
+
+        #region RunningMethods
 
         /// <summary>
         /// Makes the transition and executes the instructions given for each tape.
@@ -81,6 +91,10 @@ namespace TuringMachineMT
 
             return true;
         }
+
+        #endregion
+
+        #region Overrides
 
         /// <summary>
         /// Overrides the Equals method.
@@ -123,6 +137,10 @@ namespace TuringMachineMT
             string inputConfiguration = new string(this.inputSymbols);
             return inputConfiguration.GetHashCode();
         }
+
+        #endregion
+
+        #region XmlSerialization
 
         /// <summary>
         /// Gets the XmlSchema.
@@ -168,5 +186,7 @@ namespace TuringMachineMT
 
             writer.WriteEndElement();
         }
+
+        #endregion
     }
 }

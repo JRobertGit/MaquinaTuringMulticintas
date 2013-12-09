@@ -17,6 +17,8 @@ namespace TuringMachineMT
     /// </summary>
     public class TuringMachine
     {
+        #region Attributes
+
         /// <summary>
         /// The k-tapes of the Turing Machine.
         /// </summary>
@@ -36,6 +38,10 @@ namespace TuringMachineMT
         /// The machine status.
         /// </summary>
         private MachineStatus machineStatus;
+
+        #endregion
+
+        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TuringMachine"/> class.
@@ -70,6 +76,10 @@ namespace TuringMachineMT
             this.currentState = this.formalDescription.GetInitialState();
         }
 
+        #endregion
+
+        #region Enumerations
+
         /// <summary>
         /// The possible machine statuses.
         /// </summary>
@@ -95,6 +105,10 @@ namespace TuringMachineMT
             /// </summary>
             REJECTED
         }
+
+        #endregion
+
+        #region Getters
 
         /// <summary>
         /// Gets the machine status.
@@ -144,6 +158,10 @@ namespace TuringMachineMT
             return this.currentState.GetName();
         }
 
+        #endregion
+
+        #region VerificationMethods
+
         /// <summary>
         /// Verifies that the input string contains only the input alphabet symbols.
         /// </summary>
@@ -161,6 +179,10 @@ namespace TuringMachineMT
 
             return true;
         }
+
+        #endregion
+
+        #region RunningMethods
 
         /// <summary>
         /// Executes the Turing machine in order to recognize the input string.
@@ -219,6 +241,8 @@ namespace TuringMachineMT
             }
 
             return false;
-        } 
+        }
+
+        #endregion
     }
 }

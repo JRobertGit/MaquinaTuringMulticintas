@@ -20,6 +20,8 @@ namespace TuringMachineMT
     /// </summary>
     public class TapeInstruction : IXmlSerializable
     {
+        #region Attributes
+
         /// <summary>
         /// The tape that will write the symbol and move its head.
         /// </summary>
@@ -35,6 +37,10 @@ namespace TuringMachineMT
         /// </summary>
         private Tape.Direction headDirection;
 
+        #endregion
+
+        #region Constructors
+
         /// <summary>
         /// Initializes a new instance of the <see cref="TapeInstruction"/> class.
         /// </summary>
@@ -48,6 +54,28 @@ namespace TuringMachineMT
             this.headDirection = headDirection;
         }
 
+        #endregion
+
+        #region Setters
+
+        /// <summary>
+        /// Sets the tape that will execute the instruction.
+        /// </summary>
+        /// <param name="tapeID">The tape identifier in the Tape[] array.</param>
+        public void SetTapeID(int tapeID)
+        {
+            if (tapeID < 0)
+            {
+                throw new Exception("The tape ID must be a number between 0 and (k-1). Where k is the number of tapes in the Turing machine.");
+            }
+
+            this.tapeID = tapeID;
+        }
+
+        #endregion
+
+        #region RunningMethods
+
         /// <summary>
         /// Executes the current tape instruction in the given tape.
         /// </summary>
@@ -57,6 +85,10 @@ namespace TuringMachineMT
             tapes[this.tapeID].WriteSymbol(this.outputSymbol);
             tapes[this.tapeID].MoveHead(this.headDirection);
         }
+
+        #endregion
+
+        #region XmlSerialization
 
         /// <summary>
         /// Gets the XmlSchema
@@ -87,18 +119,6 @@ namespace TuringMachineMT
             writer.WriteAttributeString("HeadDirection", this.headDirection.ToString());
         }
 
-        /// <summary>
-        /// Sets the tape that will execute the instruction.
-        /// </summary>
-        /// <param name="tapeID">The tape identifier in the Tape[] array.</param>
-        private void SetTapeID(int tapeID)
-        {
-            if (tapeID < 0)
-            {
-                throw new Exception("The tape ID must be a number between 0 and (k-1). Where k is the number of tapes in the Turing machine.");
-            }
-
-            this.tapeID = tapeID;
-        }
+        #endregion
     }
 }

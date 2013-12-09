@@ -19,6 +19,7 @@ namespace TuringMachineMT
     /// </summary>
     public class FormalDescription : IXmlSerializable
     {
+        #region Attributes
         /// <summary>
         /// The name of the Turing machine. Must be unique in order to save it.
         /// </summary>
@@ -74,6 +75,9 @@ namespace TuringMachineMT
         /// </summary>
         private bool leftBounded;
 
+        #endregion
+
+        #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="FormalDescription"/> class.
         /// </summary>
@@ -122,6 +126,10 @@ namespace TuringMachineMT
             this.leftBounded = leftBounded;
         }
 
+        #endregion
+
+        #region Setters
+
         /// <summary>
         /// Sets the name of the Turing machine.
         /// </summary>
@@ -150,51 +158,6 @@ namespace TuringMachineMT
         }
 
         /// <summary>
-        /// Adds a new state to the Turing machine.
-        /// </summary>
-        public void AddMachineState()
-        {
-            this.machineStates.Add(new MachineState());
-        }
-
-        /// <summary>
-        /// Adds a new state to the Turing machine.
-        /// </summary>
-        /// <param name="name">The name of the state.</param>
-        public void AddMachineState(string name)
-        {
-            this.machineStates.Add(new MachineState(name));
-        }
-
-        /// <summary>
-        /// Adds a new state to the Turing machine.
-        /// </summary>
-        /// <param name="name">The name of the state.</param>
-        /// <param name="transitions">The list of transitions for that state.</param>
-        public void AddMachineState(string name, HashSet<Transition> transitions)
-        {
-            this.machineStates.Add(new MachineState(name, transitions));
-        }
-
-        /// <summary>
-        /// Gets a machine state from the machine states set.
-        /// </summary>
-        /// <param name="name">The name of the state.</param>
-        /// <returns>The machine state.</returns>
-        public MachineState GetMachineState(string name)
-        {
-            foreach (MachineState state in this.machineStates)
-            {
-                if (state.GetName().Equals(name))
-                {
-                    return state;
-                }
-            }
-
-            return null;
-        }
-
-        /// <summary>
         /// Sets the input alphabet.
         /// </summary>
         /// <param name="inputAlphabet">The input alphabet.</param>
@@ -212,20 +175,6 @@ namespace TuringMachineMT
         }
 
         /// <summary>
-        /// Adds a symbol to the input alphabet.
-        /// </summary>
-        /// <param name="symbol">The symbol to be added.</param>
-        public void AddSymbolToInputAlphabet(char symbol)
-        {
-            if (this.tapeAlphabet.Contains(symbol))
-            {
-                throw new Exception("The symbol cannot be added to the input alphabet since it is being used in the tape alphabet.");
-            }
-
-            this.inputAlphabet.Add(symbol);
-        }
-
-        /// <summary>
         /// Sets the tape alphabet.
         /// </summary>
         /// <param name="tapeAlphabet">The tape alphabet.</param>
@@ -240,20 +189,6 @@ namespace TuringMachineMT
             }
 
             this.tapeAlphabet = tapeAlphabet;
-        }
-
-        /// <summary>
-        /// Adds a symbol to the tape alphabet.
-        /// </summary>
-        /// <param name="symbol">The symbol to be added.</param>
-        public void AddSymbolToTapeAlphabet(char symbol)
-        {
-            if (this.inputAlphabet.Contains(symbol))
-            {
-                throw new Exception("The symbol cannot be added to the tape alphabet since it is being used in the input alphabet.");
-            }
-            
-            this.tapeAlphabet.Add(symbol);
         }
 
         /// <summary>
@@ -331,56 +266,9 @@ namespace TuringMachineMT
             this.leftBounded = leftBounded;
         }
 
-        /// <summary>
-        /// Creates a new transition for the Turing machine.
-        /// </summary>
-        /// <param name="inputState">The input state of the transition.</param>
-        /// <param name="inputSymbols">The symbols that will be read in the k-tapes to use this transition.</param>
-        /// <param name="outputState">The next state after the transition.</param>
-        /// <param name="outputSymbols">The symbols that will be written in the k-tapes.</param>
-        /// <param name="headsDirections">The direction of the k-heads movement.</param>
-        public void AddTransition(MachineState inputState, char[] inputSymbols, MachineState outputState, char[] outputSymbols, Tape.Direction[] headsDirections)
-        {
-            if (!this.machineStates.Contains(inputState))
-            {
-                throw new Exception("The input state does not belong to the set of states.");
-            }
+        #endregion
 
-            if (inputSymbols.Length != this.numberOfTapes || outputSymbols.Length != this.numberOfTapes)
-            {
-                throw new Exception("The length of the input/outputSymbols arrays must be equal to the number of tapes in the Turing machine.");
-            }
-
-            foreach (char symbol in inputSymbols)
-            {
-                if (!this.inputAlphabet.Contains(symbol) && !this.tapeAlphabet.Contains(symbol))
-                {
-                    throw new Exception("Not all the input symbols are being recognized by the specified alphabet.");
-                }
-            }
-
-            if (!this.machineStates.Contains(outputState))
-            {
-                throw new Exception("The output state does not belong to the set of states.");
-            }
-
-            foreach (char symbol in outputSymbols)
-            {
-                if (!this.inputAlphabet.Contains(symbol) && !this.tapeAlphabet.Contains(symbol))
-                {
-                    throw new Exception("Not all the output symbols are being recognized by the specified alphabet.");
-                }
-            }
-
-            List<TapeInstruction> tapeInstructions = new List<TapeInstruction>();
-
-            for (int i = 0; i < this.numberOfTapes; i++)
-            {
-                tapeInstructions.Add(new TapeInstruction(i, outputSymbols[i], headsDirections[i]));
-            }
-
-            inputState.AddTransition(new Transition(outputState, inputSymbols, tapeInstructions));
-        }
+        #region Getters
 
         /// <summary>
         /// Gets the number of tapes.
@@ -437,6 +325,24 @@ namespace TuringMachineMT
         }
 
         /// <summary>
+        /// Gets a machine state from the machine states set.
+        /// </summary>
+        /// <param name="name">The name of the state.</param>
+        /// <returns>The machine state.</returns>
+        public MachineState GetMachineState(string name)
+        {
+            foreach (MachineState state in this.machineStates)
+            {
+                if (state.GetName().Equals(name))
+                {
+                    return state;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// Gets if the tapes are left-bounded.
         /// </summary>
         /// <returns>If the tapes are left-bounded.</returns>
@@ -444,6 +350,120 @@ namespace TuringMachineMT
         {
             return this.leftBounded;
         }
+
+        #endregion
+
+        #region AddMethods
+
+        /// <summary>
+        /// Adds a new state to the Turing machine.
+        /// </summary>
+        public void AddMachineState()
+        {
+            this.machineStates.Add(new MachineState());
+        }
+
+        /// <summary>
+        /// Adds a new state to the Turing machine.
+        /// </summary>
+        /// <param name="name">The name of the state.</param>
+        public void AddMachineState(string name)
+        {
+            this.machineStates.Add(new MachineState(name));
+        }
+
+        /// <summary>
+        /// Adds a new state to the Turing machine.
+        /// </summary>
+        /// <param name="name">The name of the state.</param>
+        /// <param name="transitions">The list of transitions for that state.</param>
+        public void AddMachineState(string name, HashSet<Transition> transitions)
+        {
+            this.machineStates.Add(new MachineState(name, transitions));
+        }
+
+        /// <summary>
+        /// Adds a symbol to the input alphabet.
+        /// </summary>
+        /// <param name="symbol">The symbol to be added.</param>
+        public void AddSymbolToInputAlphabet(char symbol)
+        {
+            if (this.tapeAlphabet.Contains(symbol))
+            {
+                throw new Exception("The symbol cannot be added to the input alphabet since it is being used in the tape alphabet.");
+            }
+
+            this.inputAlphabet.Add(symbol);
+        }
+
+        /// <summary>
+        /// Adds a symbol to the tape alphabet.
+        /// </summary>
+        /// <param name="symbol">The symbol to be added.</param>
+        public void AddSymbolToTapeAlphabet(char symbol)
+        {
+            if (this.inputAlphabet.Contains(symbol))
+            {
+                throw new Exception("The symbol cannot be added to the tape alphabet since it is being used in the input alphabet.");
+            }
+            
+            this.tapeAlphabet.Add(symbol);
+        }
+
+        /// <summary>
+        /// Creates a new transition for the Turing machine.
+        /// </summary>
+        /// <param name="inputState">The input state of the transition.</param>
+        /// <param name="inputSymbols">The symbols that will be read in the k-tapes to use this transition.</param>
+        /// <param name="outputState">The next state after the transition.</param>
+        /// <param name="outputSymbols">The symbols that will be written in the k-tapes.</param>
+        /// <param name="headsDirections">The direction of the k-heads movement.</param>
+        public void AddTransition(MachineState inputState, char[] inputSymbols, MachineState outputState, char[] outputSymbols, Tape.Direction[] headsDirections)
+        {
+            if (!this.machineStates.Contains(inputState))
+            {
+                throw new Exception("The input state does not belong to the set of states.");
+            }
+
+            if (inputSymbols.Length != this.numberOfTapes || outputSymbols.Length != this.numberOfTapes)
+            {
+                throw new Exception("The length of the input/outputSymbols arrays must be equal to the number of tapes in the Turing machine.");
+            }
+
+            foreach (char symbol in inputSymbols)
+            {
+                if (!this.inputAlphabet.Contains(symbol) && !this.tapeAlphabet.Contains(symbol))
+                {
+                    throw new Exception("Not all the input symbols are being recognized by the specified alphabet.");
+                }
+            }
+
+            if (!this.machineStates.Contains(outputState))
+            {
+                throw new Exception("The output state does not belong to the set of states.");
+            }
+
+            foreach (char symbol in outputSymbols)
+            {
+                if (!this.inputAlphabet.Contains(symbol) && !this.tapeAlphabet.Contains(symbol))
+                {
+                    throw new Exception("Not all the output symbols are being recognized by the specified alphabet.");
+                }
+            }
+
+            List<TapeInstruction> tapeInstructions = new List<TapeInstruction>();
+
+            for (int i = 0; i < this.numberOfTapes; i++)
+            {
+                tapeInstructions.Add(new TapeInstruction(i, outputSymbols[i], headsDirections[i]));
+            }
+
+            inputState.AddTransition(new Transition(outputState, inputSymbols, tapeInstructions));
+        }
+
+        #endregion
+
+        #region VerificationMethods
 
         /// <summary>
         /// Verifies that the specified formal description for the Turing machine is valid.
@@ -465,6 +485,10 @@ namespace TuringMachineMT
 
             return true;
         }
+
+        #endregion
+
+        #region XmlSerialization
 
         /// <summary>
         /// Gets the schema.
@@ -534,6 +558,10 @@ namespace TuringMachineMT
             writer.WriteAttributeString("StateName", this.initialState.GetName());
             writer.WriteEndElement();
         }
+
+        #endregion
+
+        #region LoadSaveMethods 
 
         /// <summary>
         /// Saves to an xml file
@@ -655,5 +683,7 @@ namespace TuringMachineMT
             this.leftBounded = true;
             this.blankSymbol = ' ';
         }
+
+        #endregion
     }
 }

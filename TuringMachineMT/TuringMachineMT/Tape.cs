@@ -17,6 +17,8 @@ namespace TuringMachineMT
     /// </summary>
     public class Tape
     {
+        #region Attributes
+
         /// <summary>
         /// If the current tape is left-bounded.
         /// </summary>
@@ -36,6 +38,10 @@ namespace TuringMachineMT
         /// The read/write head location.
         /// </summary>
         private int head;
+
+        #endregion
+
+        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Tape"/> class.
@@ -68,6 +74,10 @@ namespace TuringMachineMT
             this.leftBounded = leftBounded;
         }
 
+        #endregion
+
+        #region Enumerations
+
         /// <summary>
         /// The direction of the head's movement.
         /// </summary>
@@ -88,6 +98,32 @@ namespace TuringMachineMT
             /// </summary>
             STAY = 0
         }
+
+        #endregion
+
+        #region Getters
+
+        /// <summary>
+        /// Gets the contents of the tape.
+        /// </summary>
+        /// <returns>The contents of the tape.</returns>
+        public char[] GetContents()
+        {
+            return this.content.ToArray();
+        }
+
+        /// <summary>
+        /// Gets the head location in the tape.
+        /// </summary>
+        /// <returns>The head location.</returns>
+        public int GetHead()
+        {
+            return this.head;
+        }
+
+        #endregion
+
+        #region TapeBehaviour
 
         /// <summary>
         /// Returns the symbol in the current head position.
@@ -151,23 +187,9 @@ namespace TuringMachineMT
             }
         }
 
-        /// <summary>
-        /// Gets the contents of the tape.
-        /// </summary>
-        /// <returns>The contents of the tape.</returns>
-        public char[] GetContents()
-        {
-            return this.content.ToArray();
-        }
+        #endregion
 
-        /// <summary>
-        /// Gets the head location in the tape.
-        /// </summary>
-        /// <returns>The head location.</returns>
-        public int GetHead()
-        {
-            return this.head;
-        }
+        #region AddMethods
 
         /// <summary>
         /// Adds a cell to the tape increasing its length by one.
@@ -184,5 +206,7 @@ namespace TuringMachineMT
         {
             this.content.Insert(0, this.blankSymbol);
         }
+
+        #endregion
     }
 }

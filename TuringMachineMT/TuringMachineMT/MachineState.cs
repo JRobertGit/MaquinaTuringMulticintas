@@ -18,6 +18,8 @@ namespace TuringMachineMT
     /// </summary>
     public class MachineState : IXmlSerializable
     {
+        #region Attributes
+
         /// <summary>
         /// The number of states currently created.
         /// </summary>
@@ -37,6 +39,10 @@ namespace TuringMachineMT
         /// A list with all the possible transitions from this state.
         /// </summary>
         private HashSet<Transition> transitions;
+
+        #endregion
+
+        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MachineState"/> class.
@@ -68,6 +74,10 @@ namespace TuringMachineMT
             this.transitions = transitions;
         }
 
+        #endregion
+
+        #region Getters
+
         /// <summary>
         /// Gets the descriptive name of the state.
         /// </summary>
@@ -76,6 +86,10 @@ namespace TuringMachineMT
         {
             return this.name;
         }
+
+        #endregion
+
+        #region AddMethods
 
         /// <summary>
         /// Adds a new transition to the current state.
@@ -97,6 +111,10 @@ namespace TuringMachineMT
         {
             this.transitions.Add(transition);
         }
+
+        #endregion
+
+        #region RunningMethods
 
         /// <summary>
         /// Changes to the next state of the Turing machine.
@@ -122,6 +140,10 @@ namespace TuringMachineMT
 
             return null;
         }
+
+        #endregion
+
+        #region Overrides
 
         /// <summary>
         /// Overrides the Equals method.
@@ -152,6 +174,10 @@ namespace TuringMachineMT
         {
             return this.name.GetHashCode();
         }
+
+        #endregion
+
+        #region XmlSerialization
 
         /// <summary>
         /// Gets the XmlSchema.
@@ -190,5 +216,7 @@ namespace TuringMachineMT
 
             writer.WriteEndElement();
         }
+
+        #endregion
     }
 }
