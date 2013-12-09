@@ -379,10 +379,19 @@ namespace TuringMachineMT
         }
 
         /// <summary>
+        /// Gets the machine states set.
+        /// </summary>
+        /// <returns>The machine states.</returns>
+        public MachineState[] GetMachineStatesSet()
+        {
+            return this.machineStates.ToArray<MachineState>();
+        }
+
+        /// <summary>
         /// Gets the machine states in a string of type {q0, q1,..., qn}.
         /// </summary>
         /// <returns>The machine states.</returns>
-        public string GetMachineStatesToString()
+        public string GetMachineStatesAsString()
         {
             string machineStatesStr = string.Empty;
             int machineStatesCounter = 0;
@@ -407,7 +416,7 @@ namespace TuringMachineMT
         /// Gets the input alphabet in a string of type {s1, s2,..., sn}.
         /// </summary>
         /// <returns>The input alphabet.</returns>
-        public string GetInputAlphabetToString()
+        public string GetInputAlphabetAsString()
         {
             string inputAlphabetStr = string.Empty;
             int inputAlphabetCounter = 0;
@@ -432,7 +441,7 @@ namespace TuringMachineMT
         /// Gets the tape alphabet in a string of type {s1, s2,..., sn}.
         /// </summary>
         /// <returns>The tape alphabet.</returns>
-        public string GetTapeAlphabetToString()
+        public string GetTapeAlphabetAsString()
         {
             string tapeAlphabetStr = string.Empty;
             int tapeAlphabetCounter = 0;
