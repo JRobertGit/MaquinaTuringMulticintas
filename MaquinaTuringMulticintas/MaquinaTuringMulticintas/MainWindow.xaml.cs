@@ -131,10 +131,10 @@ namespace MaquinaTuringMulticintas
             if (result == true)
             {
                 fileName = openFileD.FileName;
+                FormalDescription description = new FormalDescription();
+                description.Load(fileName);
+                MessageBox.Show("Loaded");
             }
-
-            FormalDescription description = new FormalDescription();
-            description.Load(fileName);
         }
         #endregion
 
