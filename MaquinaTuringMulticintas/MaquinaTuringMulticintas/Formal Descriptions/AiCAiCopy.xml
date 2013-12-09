@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FormalDescription Name="AiCAiCopy" Description="Reconoce el leguaje dado por L={a^ica^i} con dos cintas." NumberOfTapes="2" BlankSymbol="B" LeftBounded="False">
+  <InputAlphabet>
+    <Symbol>a</Symbol>
+    <Symbol>c</Symbol>
+  </InputAlphabet>
+  <TapeAlphabet>
+    <Symbol>B</Symbol>
+  </TapeAlphabet>
+  <StatesSet>
+    <MachineState ID="0" Name="q0">
+      <Transitions>
+        <Transition OutputState="q0">
+          <InputSymbols>
+            <Symbol>a</Symbol>
+            <Symbol>B</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="a" HeadDirection="RIGHT" />
+            <TapeInstruction TapeID="1" OutputSymbol="a" HeadDirection="RIGHT" />
+          </TapeInstructions>
+        </Transition>
+        <Transition OutputState="q1">
+          <InputSymbols>
+            <Symbol>c</Symbol>
+            <Symbol>B</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="c" HeadDirection="RIGHT" />
+            <TapeInstruction TapeID="1" OutputSymbol="B" HeadDirection="LEFT" />
+          </TapeInstructions>
+        </Transition>
+      </Transitions>
+    </MachineState>
+    <MachineState ID="1" Name="q1">
+      <Transitions>
+        <Transition OutputState="q1">
+          <InputSymbols>
+            <Symbol>a</Symbol>
+            <Symbol>a</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="a" HeadDirection="RIGHT" />
+            <TapeInstruction TapeID="1" OutputSymbol="a" HeadDirection="LEFT" />
+          </TapeInstructions>
+        </Transition>
+        <Transition OutputState="q2">
+          <InputSymbols>
+            <Symbol>B</Symbol>
+            <Symbol>B</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="B" HeadDirection="RIGHT" />
+            <TapeInstruction TapeID="1" OutputSymbol="B" HeadDirection="RIGHT" />
+          </TapeInstructions>
+        </Transition>
+      </Transitions>
+    </MachineState>
+    <MachineState ID="2" Name="q2">
+      <Transitions />
+    </MachineState>
+    <MachineState ID="3" Name="q3">
+      <Transitions />
+    </MachineState>
+  </StatesSet>
+  <AcceptState StateName="q2" />
+  <RejectState StateName="q3" />
+  <InitialState StateName="q0" />
+</FormalDescription>

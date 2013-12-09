@@ -1,7 +1,7 @@
 ﻿<Window x:Class="MaquinaTuringMulticintas.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="500" Width="800" MaxHeight="500" MaxWidth="800">
+        Title="Main Menu" Height="500" Width="800" MaxHeight="500" MaxWidth="800" Style="{StaticResource WindowStyle}" Foreground="Purple" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
         
         <Grid.RowDefinitions>

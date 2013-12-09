@@ -96,7 +96,7 @@
             <Setter Property="Foreground" Value="White"></Setter>
             <Setter Property="HorizontalAlignment" Value="Center"></Setter>
             <Setter Property="Margin" Value="5"></Setter>
-            <Setter Property="Text" Value="Multi-tape Turing Machine"></Setter>
+            <Setter Property="Text" Value="Multi-tape Turing Machine Simulator"></Setter>
         </Style>
         
         <Style TargetType="StackPanel" x:Key="ContentPanelStyle">
@@ -160,6 +160,10 @@
             <Setter Property="Width" Value="20"></Setter>
             <Setter Property="TextAlignment" Value="Center"></Setter>
             <Setter Property="VerticalAlignment" Value="Bottom"></Setter>
+        </Style>
+        
+        <Style TargetType="Window" x:Key="WindowStyle">
+            <Setter Property="BorderBrush" Value="Purple"></Setter>
         </Style>
         
         <DataTemplate x:Key="MyFormalDescriptionsTemplate">

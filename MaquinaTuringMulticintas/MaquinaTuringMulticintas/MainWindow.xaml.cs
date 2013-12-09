@@ -171,9 +171,19 @@ namespace MaquinaTuringMulticintas
             {
                 fileName = openFileD.FileName;
                 FormalDescription description = new FormalDescription();
+
+                //if is a valid XML Formal Description File.
                 try
                 {
                     description.Load(fileName);
+
+                    XmlDocument temporalDoc = new XmlDocument();
+                    temporalDoc.Load(fileName);
+                    string name = temporalDoc.GetElementsByTagName("FormalDescription")[0].Attributes.GetNamedItem("Name").Value;
+
+                    System.IO.File.Move(fileName, "../../Formal Descriptions/" + name + ".xml");
+                    MessageBox.Show("The file has been loaded.");
+                    LoadMyFormalDescriptions();
                 }
                 catch (Exception ex)
                 {
