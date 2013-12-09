@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FormalDescription Name="aicai" Description="aicai" NumberOfTapes="2" BlankSymbol="B" LeftBounded="False">
+<FormalDescription Name="AiCAi" Description="Reconoce el leguaje dado por L={a^ica^i} con dos cintas." NumberOfTapes="2" BlankSymbol="B" LeftBounded="False">
   <InputAlphabet>
     <Symbol>a</Symbol>
     <Symbol>c</Symbol>
@@ -8,9 +8,9 @@
     <Symbol>B</Symbol>
   </TapeAlphabet>
   <StatesSet>
-    <MachineState ID="0" Name="0">
+    <MachineState ID="0" Name="q0">
       <Transitions>
-        <Transition OutputState="0">
+        <Transition OutputState="q0">
           <InputSymbols>
             <Symbol>a</Symbol>
             <Symbol>B</Symbol>
@@ -20,7 +20,7 @@
             <TapeInstruction TapeID="1" OutputSymbol="a" HeadDirection="RIGHT" />
           </TapeInstructions>
         </Transition>
-        <Transition OutputState="1">
+        <Transition OutputState="q1">
           <InputSymbols>
             <Symbol>c</Symbol>
             <Symbol>B</Symbol>
@@ -32,9 +32,9 @@
         </Transition>
       </Transitions>
     </MachineState>
-    <MachineState ID="1" Name="1">
+    <MachineState ID="1" Name="q1">
       <Transitions>
-        <Transition OutputState="1">
+        <Transition OutputState="q1">
           <InputSymbols>
             <Symbol>a</Symbol>
             <Symbol>a</Symbol>
@@ -44,7 +44,7 @@
             <TapeInstruction TapeID="1" OutputSymbol="a" HeadDirection="LEFT" />
           </TapeInstructions>
         </Transition>
-        <Transition OutputState="2">
+        <Transition OutputState="q2">
           <InputSymbols>
             <Symbol>B</Symbol>
             <Symbol>B</Symbol>
@@ -56,14 +56,14 @@
         </Transition>
       </Transitions>
     </MachineState>
-    <MachineState ID="2" Name="2">
+    <MachineState ID="2" Name="q2">
       <Transitions />
     </MachineState>
-    <MachineState ID="3" Name="3">
+    <MachineState ID="3" Name="q3">
       <Transitions />
     </MachineState>
   </StatesSet>
-  <AcceptState StateName="2" />
-  <RejectState StateName="3" />
-  <InitialState StateName="0" />
+  <AcceptState StateName="q2" />
+  <RejectState StateName="q3" />
+  <InitialState StateName="q0" />
 </FormalDescription>

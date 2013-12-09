@@ -114,7 +114,10 @@
     <Resource Include="XMLDocuments\Instructions.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="XMLDocuments\aicaiExample.xml" />
+    <Resource Include="XMLDocuments\AiCAiExample.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="XMLDocuments\BinaryPalindromeExample.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

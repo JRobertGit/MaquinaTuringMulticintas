@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FormalDescription Name="Palíndromo binario" Description="Es una máquina de 2 cintas que decide si una palabra w = {0,1}* es un palíndromo." NumberOfTapes="2" BlankSymbol="B" LeftBounded="False">
+  <InputAlphabet>
+    <Symbol>0</Symbol>
+    <Symbol>1</Symbol>
+  </InputAlphabet>
+  <TapeAlphabet>
+    <Symbol>B</Symbol>
+  </TapeAlphabet>
+  <StatesSet>
+    <MachineState ID="0" Name="qcopy">
+      <Transitions>
+        <Transition OutputState="qcopy">
+          <InputSymbols>
+            <Symbol>0</Symbol>
+            <Symbol>B</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="0" HeadDirection="RIGHT" />
+            <TapeInstruction TapeID="1" OutputSymbol="0" HeadDirection="RIGHT" />
+          </TapeInstructions>
+        </Transition>
+        <Transition OutputState="qcopy">
+          <InputSymbols>
+            <Symbol>1</Symbol>
+            <Symbol>B</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="1" HeadDirection="RIGHT" />
+            <TapeInstruction TapeID="1" OutputSymbol="1" HeadDirection="RIGHT" />
+          </TapeInstructions>
+        </Transition>
+        <Transition OutputState="qreturn">
+          <InputSymbols>
+            <Symbol>B</Symbol>
+            <Symbol>B</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="B" HeadDirection="LEFT" />
+            <TapeInstruction TapeID="1" OutputSymbol="B" HeadDirection="STAY" />
+          </TapeInstructions>
+        </Transition>
+      </Transitions>
+    </MachineState>
+    <MachineState ID="1" Name="qreturn">
+      <Transitions>
+        <Transition OutputState="qreturn">
+          <InputSymbols>
+            <Symbol>0</Symbol>
+            <Symbol>B</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="0" HeadDirection="LEFT" />
+            <TapeInstruction TapeID="1" OutputSymbol="B" HeadDirection="STAY" />
+          </TapeInstructions>
+        </Transition>
+        <Transition OutputState="qreturn">
+          <InputSymbols>
+            <Symbol>1</Symbol>
+            <Symbol>B</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="1" HeadDirection="LEFT" />
+            <TapeInstruction TapeID="1" OutputSymbol="B" HeadDirection="STAY" />
+          </TapeInstructions>
+        </Transition>
+        <Transition OutputState="qtest">
+          <InputSymbols>
+            <Symbol>B</Symbol>
+            <Symbol>B</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="B" HeadDirection="RIGHT" />
+            <TapeInstruction TapeID="1" OutputSymbol="B" HeadDirection="LEFT" />
+          </TapeInstructions>
+        </Transition>
+      </Transitions>
+    </MachineState>
+    <MachineState ID="2" Name="qtest">
+      <Transitions>
+        <Transition OutputState="qtest">
+          <InputSymbols>
+            <Symbol>0</Symbol>
+            <Symbol>0</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="0" HeadDirection="RIGHT" />
+            <TapeInstruction TapeID="1" OutputSymbol="0" HeadDirection="LEFT" />
+          </TapeInstructions>
+        </Transition>
+        <Transition OutputState="qtest">
+          <InputSymbols>
+            <Symbol>1</Symbol>
+            <Symbol>1</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="1" HeadDirection="RIGHT" />
+            <TapeInstruction TapeID="1" OutputSymbol="1" HeadDirection="LEFT" />
+          </TapeInstructions>
+        </Transition>
+        <Transition OutputState="qaccept">
+          <InputSymbols>
+            <Symbol>B</Symbol>
+            <Symbol>B</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="B" HeadDirection="STAY" />
+            <TapeInstruction TapeID="1" OutputSymbol="B" HeadDirection="STAY" />
+          </TapeInstructions>
+        </Transition>
+      </Transitions>
+    </MachineState>
+    <MachineState ID="3" Name="qaccept">
+      <Transitions />
+    </MachineState>
+    <MachineState ID="4" Name="qreject">
+      <Transitions />
+    </MachineState>
+  </StatesSet>
+  <AcceptState StateName="qaccept" />
+  <RejectState StateName="qreject" />
+  <InitialState StateName="qcopy" />
+</FormalDescription>

@@ -106,6 +106,45 @@ namespace TuringMachineMT
         }
 
         /// <summary>
+        /// Gets the tape contents of the specified tape.
+        /// </summary>
+        /// <param name="tapeID">The tape identifier.</param>
+        /// <returns>The tape contents.</returns>
+        public char[] GetTapeContent(int tapeID)
+        {
+            if (tapeID < 0 || tapeID <= this.tapes.Length)
+            {
+                throw new Exception("The tape you want to acces does not exist.");
+            }
+
+            return this.tapes[tapeID].GetContents();
+        }
+
+        /// <summary>
+        /// Gets the head location of the specified tape.
+        /// </summary>
+        /// <param name="tapeID">The tape identifier.</param>
+        /// <returns>The head location.</returns>
+        public int GetHeadLocation(int tapeID)
+        {
+            if (tapeID < 0 || tapeID <= this.tapes.Length)
+            {
+                throw new Exception("The tape you want to acces does not exist.");
+            }
+
+            return this.tapes[tapeID].GetHead();
+        }
+
+        /// <summary>
+        /// Gets the current status name.
+        /// </summary>
+        /// <returns>The current status name.</returns>
+        public string GetCurrentStatusName()
+        {
+            return this.currentState.GetName();
+        }
+
+        /// <summary>
         /// Verifies that the input string contains only the input alphabet symbols.
         /// </summary>
         /// <param name="inputString">The input string.</param>

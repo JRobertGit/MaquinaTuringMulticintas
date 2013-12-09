@@ -253,7 +253,7 @@ namespace TuringMachineMT
                 throw new Exception("The symbol cannot be added to the tape alphabet since it is being used in the input alphabet.");
             }
             
-            this.inputAlphabet.Add(symbol);
+            this.tapeAlphabet.Add(symbol);
         }
 
         /// <summary>
@@ -376,10 +376,7 @@ namespace TuringMachineMT
 
             for (int i = 0; i < this.numberOfTapes; i++)
             {
-                if ((inputSymbols[i] != outputSymbols[i]) || headsDirections[i] != Tape.Direction.STAY)
-                {
-                    tapeInstructions.Add(new TapeInstruction(i, outputSymbols[i], headsDirections[i]));
-                }
+                tapeInstructions.Add(new TapeInstruction(i, outputSymbols[i], headsDirections[i]));
             }
 
             inputState.AddTransition(new Transition(outputState, inputSymbols, tapeInstructions));
@@ -644,7 +641,7 @@ namespace TuringMachineMT
         /// Resets the formal description to default (not valid) values for loading
         /// a new description.
         /// </summary>
-        public void ResetFormalDescription()
+        private void ResetFormalDescription()
         {
             this.name = string.Empty;
             this.description = string.Empty;

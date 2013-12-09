@@ -161,6 +161,15 @@ namespace TuringMachineMT
         }
 
         /// <summary>
+        /// Gets the head location in the tape.
+        /// </summary>
+        /// <returns>The head location.</returns>
+        public int GetHead()
+        {
+            return this.head;
+        }
+
+        /// <summary>
         /// Adds a cell to the tape increasing its length by one.
         /// </summary>
         private void AddCell()
