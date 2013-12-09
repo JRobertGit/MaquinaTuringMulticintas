@@ -62,10 +62,6 @@ namespace MaquinaTuringMulticintas
             TitleTextBox.Text = title;
             ContentTextBlock = new TextBlock { Text = contentStr, Style = contentStyle };
             Content.Children.Add(ContentTextBlock);
-        }
-
-        
-
-        
+        }    
     }
 }
