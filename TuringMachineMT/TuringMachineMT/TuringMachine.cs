@@ -126,7 +126,7 @@ namespace TuringMachineMT
         /// <returns>The tape contents.</returns>
         public char[] GetTapeContent(int tapeID)
         {
-            if (tapeID < 0 || tapeID <= this.tapes.Length)
+            if (tapeID < 0 || tapeID >= this.tapes.Length)
             {
                 throw new Exception("The tape you want to acces does not exist.");
             }
@@ -141,7 +141,7 @@ namespace TuringMachineMT
         /// <returns>The head location.</returns>
         public int GetHeadLocation(int tapeID)
         {
-            if (tapeID < 0 || tapeID <= this.tapes.Length)
+            if (tapeID < 0 || tapeID >= this.tapes.Length)
             {
                 throw new Exception("The tape you want to acces does not exist.");
             }
@@ -156,6 +156,15 @@ namespace TuringMachineMT
         public string GetCurrentStatusName()
         {
             return this.currentState.GetName();
+        }
+
+        /// <summary>
+        /// Gets the machine formal description.
+        /// </summary>
+        /// <returns>The formal description.</returns>
+        public FormalDescription GetFormalDescription()
+        {
+            return this.formalDescription;
         }
 
         #endregion
