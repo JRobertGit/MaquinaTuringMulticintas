@@ -9,13 +9,20 @@ namespace TuringMachineMTConsoleApplication
 {
     class Program
     {
+        #region ScreenVariables
         const int BUFFER_WIDTH = 80;
         const int BUFFER_HEIGHT = 300;
         const int WINDOW_WIDTH = 80;
-        const int WINDOW_HEIGHT = 27;
+        const int HEADER_SIZE = 7;
+        const int CONTENT_SIZE = 25;
+        const int FOOTER_SIZE = 1;
+        const int WINDOW_HEIGHT = HEADER_SIZE + CONTENT_SIZE + FOOTER_SIZE + 2;
 
+        static string[] ScreenBuffer;
+        static int ContentOffset = 0;
         static string ProgramTitle;
         static string ProgramSubtitle;
+        #endregion
 
         static void Main(string[] args)
         {
@@ -25,167 +32,163 @@ namespace TuringMachineMTConsoleApplication
             LoadMenu();
         }
 
-        private static void StartScreen()
+        static void StartScreen()
         {
-            PrintHeader();
-            Console.WriteLine(CenterStringWithChar(' '," ._________________. "));
-            Console.WriteLine(CenterStringWithChar(' '," | _______________ | "));
-            Console.WriteLine(CenterStringWithChar(' '," | I             I | "));
-            Console.WriteLine(CenterStringWithChar(' '," | I             I | "));
-            Console.WriteLine(CenterStringWithChar(' '," | I             I | "));
-            Console.WriteLine(CenterStringWithChar(' '," | I             I | "));
-            Console.WriteLine(CenterStringWithChar(' '," | I_____________I | "));
-            Console.WriteLine(CenterStringWithChar(' '," !_________________! "));
-            Console.WriteLine(CenterStringWithChar(' ',"    ._[_______]_.    "));
-            Console.WriteLine(CenterStringWithChar(' ',".___|___________|___."));
-            Console.WriteLine(CenterStringWithChar(' ',"|::: ____           |"));
-            Console.WriteLine(CenterStringWithChar(' ',"|    ~~~~ [CD-ROM]  |"));
-            Console.WriteLine(CenterStringWithChar(' ',"!___________________!"));
-            Console.WriteLine();
-            Console.WriteLine(FormatToLeft("v 1.0 "));
-            Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine("Press ENTER to continue...");
+            ScreenClearContent();
+            ScreenWriteContent(2 , CenterStringWithChar(' ', " ._________________. "));
+            ScreenWriteContent(3 , CenterStringWithChar(' ', " | _______________ | "));
+            ScreenWriteContent(4 , CenterStringWithChar(' ', " | I             I | "));
+            ScreenWriteContent(5 , CenterStringWithChar(' ', " | I             I | "));
+            ScreenWriteContent(6 , CenterStringWithChar(' ', " | I             I | "));
+            ScreenWriteContent(7 , CenterStringWithChar(' ', " | I             I | "));
+            ScreenWriteContent(8 , CenterStringWithChar(' ', " | I_____________I | "));
+            ScreenWriteContent(9 , CenterStringWithChar(' ', " !_________________! "));
+            ScreenWriteContent(10, CenterStringWithChar(' ', "    ._[_______]_.    "));
+            ScreenWriteContent(11, CenterStringWithChar(' ', ".___|___________|___."));
+            ScreenWriteContent(12, CenterStringWithChar(' ', "|::: ____           |"));
+            ScreenWriteContent(13, CenterStringWithChar(' ', "|    ~~~~ [CD-ROM]  |"));
+            ScreenWriteContent(14, CenterStringWithChar(' ', "!___________________!"));
+            ScreenWriteContent(17, FormatToLeft("v 1.0 "));
+
+            ScreenWriteFooter(" Press ENTER to continue...");
+            ScreenFlush();
+
             Console.ReadLine();
-            Console.Clear();
         }
-        private static void LoadMenu()
+        
+        static void LoadMenu()
         {
-            bool runningProgram = true;
-            while (runningProgram)
-            {
-                PrintHeader();
-                Console.WriteLine(" Menu Options                                   ");
-                Console.WriteLine("              1. Load machine from file.        ");
-                Console.WriteLine("              2. Create new machine.            ");
-                Console.WriteLine();
-                Console.WriteLine();
-                bool invalidOption = true;
-                while (invalidOption)
-                {
-                    Console.Write(" Enter the selected option (Press 'x' to exit): ");
-                    string menuOption = Console.ReadLine();
+            bool invalidOption = false;
 
-                    if (menuOption.Equals("x"))
-                    {
-                        runningProgram = false;
-                        break;
-                    }
-
-                    switch (menuOption)
-                    {
-                        case "1":
-                            invalidOption = false;
-                            LoadMachineFromFile();
-                            break;
-                        case "2":
-                            invalidOption = false;
-                            break;
-                        default:
-                            Console.WriteLine(" The selected option is not valid... ");
-                            break;
-                    }
-                }
-
-                Console.Clear();
-            }
-        }
-
-        private static void LoadMachineFromFile()
-        {
-            string fileName = string.Empty;
-            FormalDescription TuringMachineDescription = new FormalDescription();
-
-            PrintHeader();
-            Console.WriteLine(" You selected: Load machine from file...");
-            Console.WriteLine();
-            Console.WriteLine(" In order to load a machine you must specify a file.");
-            Console.WriteLine(" You can exit at any time by pressing 'x'.");
-            Console.WriteLine();
             while (true)
             {
-                Console.Write(" Please, enter the file name: ");
-                fileName = Console.ReadLine();
+                ScreenClearContent();
+                ScreenWriteContent(0, " *** Menu Options ***                           ");
+                ScreenWriteContent(2, "              1. Load machine from file.        ");
+                ScreenWriteContent(3, "              2. Create new machine.            ");
 
-                if (fileName.Equals("x"))
-                {
-                    return;
-                }
+                if (invalidOption) ScreenWriteContent(CONTENT_SIZE - 1, " The selected option is not valid... ");
+                ScreenWriteFooter(" Enter the selected option (Press 'x' to exit): ");
+                ScreenFlush();
 
-                if (!System.IO.File.Exists(fileName))
+                string menuOption = Console.ReadLine();
+                if (menuOption.Equals("x")) return;
+
+                switch (menuOption)
                 {
-                    Console.WriteLine(" The specified file doesn't exist...");
-                    Console.WriteLine();
-                }
-                else
-                {
-                    break;
+                    case "1":
+                        invalidOption = false;
+                        LoadMachineFromFile();
+                        break;
+                    case "2":
+                        invalidOption = false;
+                        break;
+                    default:
+                        invalidOption = true;
+                        break;
                 }
             }
+        }
 
-            Console.WriteLine();
-            Console.Write(" Loading file.......... ");
-            try
+        static void LoadMachineFromFile()
+        {
+            bool validOption = true;
+            string fileName = string.Empty;
+
+            ScreenClearContent();
+            ScreenWriteContent(0, " *** Load Turing machine from file ***");
+            ScreenWriteContent(2, " In order to load a machine you must specify a file.");
+            ScreenWriteContent(3, " You can exit at any time by pressing 'x'.");
+            
+            while (true)
+            {
+                if (!validOption) ScreenWriteContent(CONTENT_SIZE - 1, " The specified file doesn't exist...");
+                ScreenWriteFooter(" Enter the file name: ");
+                ScreenFlush();
+
+                fileName = Console.ReadLine();
+                
+                if (fileName.Equals("x")) return;
+
+                if (!System.IO.File.Exists(fileName)) validOption = false;
+                else validOption = true;
+
+                if (validOption) break;
+            }
+            ScreenWriteContent(CONTENT_SIZE - 1, string.Empty);
+            ScreenWriteContent(7,CenterStringWithChar(' ', " ... Loading file ... "));
+            ScreenFlush();
+
+            FormalDescription TuringMachineDescription = new FormalDescription();
+            try 
             {
                 TuringMachineDescription.Load(fileName);
-            }
-            catch
+            } catch 
             {
-                Console.WriteLine(" Error! The file wasn't loaded.");
-                Console.WriteLine();
-                Console.WriteLine(" Press ENTER to continue");
+                ScreenWriteContent(6, " Error! The file wasn't loaded.");
+                ScreenWriteFooter(" Press ENTER to continue");
                 Console.ReadLine();
                 return;
             }
 
-            Console.WriteLine(" Ready!");
-            Console.WriteLine();
-            Console.WriteLine(" Press ENTER to continue");
+            ScreenWriteContent(9,CenterStringWithChar(' ', " The file was succesfully loaded!"));
+            ScreenWriteContent(11,CenterStringWithChar(' ', " Machine Ready!"));
+            ScreenWriteFooter(" Press ENTER to continue");
+            ScreenFlush();
+
             Console.ReadLine();
 
-            ExecuteTuringMachine(TuringMachineDescription);
+            TuringMachineMenu(TuringMachineDescription);
         }
 
-        static void ExecuteTuringMachine(FormalDescription machineDescription)
+        static void TuringMachineMenu(FormalDescription machineDescription)
         {
+            string option = string.Empty;
             bool validOption = true;
 
             while (true)
             {
-                PrintHeader();
-                Console.WriteLine(string.Format(" *** Machine Formal Description *** "));
-                Console.WriteLine();
-                Console.WriteLine(string.Format(" Machine name:    {0}", machineDescription.GetName()));
-                Console.WriteLine(string.Format(" Description:     {0}", machineDescription.GetDescription()));
-                Console.WriteLine(string.Format(" Number of tapes: {0}", machineDescription.GetNumberOfTapes().ToString()));
-                Console.WriteLine();
-                Console.WriteLine(string.Format(" States set:      {0}", machineDescription.GetMachineStatesToString()));
-                Console.WriteLine(string.Format(" Input alphabet:  {0}", machineDescription.GetInputAlphabetToString()));
-                Console.WriteLine(string.Format(" Tape alphabet:   {0}", machineDescription.GetTapeAlphabetToString()));
-                Console.WriteLine(string.Format(" Blank symbol:    {0}", machineDescription.GetBlankSymbol()));
-                Console.WriteLine(string.Format(" Initial state:   {0}", machineDescription.GetInitialState().GetName()));
-                Console.WriteLine(string.Format(" Accept state:    {0}", machineDescription.GetAcceptState().GetName()));
-                Console.WriteLine(string.Format(" Reject state:    {0}", machineDescription.GetRejectState().GetName()));
-                Console.WriteLine();
-                Console.WriteLine("Machine Options:     1. See transition function.");
-                Console.WriteLine("                     2. Run machine.");
-                Console.WriteLine();
-                if (!validOption) Console.WriteLine(" The selected option is not valid... ");
-                Console.Write(" Enter the selected option (Press 'x' to exit): ");
-                string option = Console.ReadLine();
+                ScreenClearContent();
+                ScreenWriteContent(0 , " *** Machine Formal Description ***");
+                ScreenWriteContent(2 , string.Format(" Machine name:    {0}", machineDescription.GetName()));
+                ScreenWriteContent(3 , string.Format(" Description:     {0}", machineDescription.GetDescription()));
+                ScreenWriteContent(4 , string.Format(" Number of tapes: {0}", machineDescription.GetNumberOfTapes().ToString()));
+                ScreenWriteContent(6 , string.Format(" States set:      {0}", machineDescription.GetMachineStatesAsString()));
+                ScreenWriteContent(7 , string.Format(" Input alphabet:  {0}", machineDescription.GetInputAlphabetAsString()));
+                ScreenWriteContent(8 , string.Format(" Tape alphabet:   {0}", machineDescription.GetTapeAlphabetAsString()));
+                ScreenWriteContent(9 , string.Format(" Blank symbol:    {0}", machineDescription.GetBlankSymbol()));
+                ScreenWriteContent(10, string.Format(" Initial state:   {0}", machineDescription.GetInitialState().GetName()));
+                ScreenWriteContent(11, string.Format(" Accept state:    {0}", machineDescription.GetAcceptState().GetName()));
+                ScreenWriteContent(12, string.Format(" Reject state:    {0}", machineDescription.GetRejectState().GetName()));
 
-                if (option.Equals("x"))
-                {
-                    return;
-                }
+                ScreenWriteContent(14, " *** Machine Options *** ");
+                ScreenWriteContent(16, " 1. See transition function.");
+                ScreenWriteContent(17, " 2. Instant run.");
+                ScreenWriteContent(18, " 3. Step by step run.");
+                ScreenWriteContent(19, " 4. Edit machine.");
+
+                if (!validOption) ScreenWriteContent(CONTENT_SIZE - 1, " The selected option is not valid... ");
+                ScreenWriteFooter(" Enter the selected option (Press 'x' to exit): ");
+                ScreenFlush();
+
+                option = Console.ReadLine();
+                
+                if (option.Equals("x")) return;
 
                 switch (option)
                 {
                     case "1":
                         validOption = true;
+                        ShowTransitionFunction(machineDescription);
                         break;
                     case "2":
+                        validOption = true;
+                        InstantRun(machineDescription);
+                        break;
+                    case "3":
+                        validOption = true;
+                        break;
+                    case "4":
                         validOption = true;
                         break;
                     default:
@@ -195,27 +198,185 @@ namespace TuringMachineMTConsoleApplication
             }
         }
 
+        static void ShowTransitionFunction(FormalDescription machineDescription)
+        {
+            MachineState[] states = machineDescription.GetMachineStatesSet();
+            List<string> transitions = new List<string>();
+
+            foreach (MachineState state in states)
+            {
+                foreach (string transition in state.GetTransitionsAsString())
+                {
+                    transitions.Add(transition);
+                }
+            }
+
+            int pages = transitions.Count / 10;
+            if (transitions.Count % 10 != 0 && pages > 0) pages++;
+
+            int currentPage = 0;
+            bool validOption = true;
+            string option = string.Empty;
+
+            ScreenClearContent();
+            ScreenWriteContent(0 , " *** Machine Transition Function ***");
+            
+            while (true)
+            {
+                for (int i = 0; i < 10; i++ )
+                {
+                    if (currentPage * 10 + i >= transitions.Count)
+                        break;
+                    ScreenWriteContent(i + 2,string.Format(" {0}", transitions[currentPage * 10 + i]));
+                }
+
+                if (pages > 0)
+                {
+                    if (currentPage == 0)
+                        ScreenWriteContent(13, " Press 'n' for next page");
+                    else if (currentPage == pages)
+                        ScreenWriteContent(13, " Press 'p' for prev page");
+                    else
+                    {
+                        ScreenWriteContent(13, " Press 'n' for next page");
+                        ScreenWriteContent(13, " Press 'n' for next page");
+                    }
+                }
+
+                if (!validOption) ScreenWriteContent(CONTENT_SIZE - 1, " The selected option is not valid... ");
+                ScreenWriteFooter(" Enter the selected option (Press 'x' to exit): ");
+                ScreenFlush();
+
+                option = Console.ReadLine();
+
+                if (option.Equals("x")) return;
+
+                switch (option)
+                {
+                    case "n":
+                        if (pages > 0 && currentPage < pages)
+                        {
+                            validOption = true;
+                            currentPage++;
+                        }
+                        else
+                        {
+                            validOption = false;
+                        }
+                        break;
+                    case "p":
+                        if (pages > 0 && currentPage > 0)
+                        {
+                            validOption = true;
+                            currentPage--;
+                        }
+                        else
+                        {
+                            validOption = false;
+                        }
+                        break;
+                    default:
+                        validOption = false;
+                        break;
+                }
+            }
+        }
+
+        static void InstantRun(FormalDescription machineDescription)
+        {
+            string inputString = string.Empty;
+
+            ScreenClearContent();
+            ScreenWriteContent(0, " *** Instant Run ***");
+            ScreenWriteContent(2, string.Format(" Valid input alphabet: {0}", machineDescription.GetInputAlphabetAsString()));
+            ScreenWriteContent(4, " Waiting for input...");
+            ScreenWriteFooter(" Enter the input string:");
+            ScreenFlush();
+            inputString = Console.ReadLine();
+
+            TuringMachine machine;
+            try
+            {
+                machine = new TuringMachine(inputString, WINDOW_WIDTH / 5, machineDescription);
+            }
+            catch
+            {
+                ScreenWriteContent(5, " INVALID input detected...");
+                ScreenWriteContent(7, " The input symbols does not belong to the input alphabet.");
+                ScreenWriteContent(8, " The machine will exit.");
+                ScreenWriteFooter(" Press ENTER to continue:");
+                ScreenFlush();
+                Console.ReadLine();
+                return;
+            }
+
+            ScreenWriteContent(5, " The input was validated!");
+            ScreenWriteContent(7, string.Format(" Running machine for string '{0}'...", inputString));
+            ScreenFlush();
+            machine.RunAll();
+            ScreenWriteContent(9, string.Format(" The input string was {0}!", machine.GetMachineStatus()));
+            
+            ScreenWriteFooter(" Press ENTER to continue:");
+            ScreenFlush();
+            Console.ReadLine();
+            return;
+        }
+
         #region FormatHelpers
 
         static void StartScreenHelper()
         {
             Console.SetBufferSize(BUFFER_WIDTH, BUFFER_HEIGHT);
             Console.SetWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+            ScreenBuffer = new string[HEADER_SIZE + CONTENT_SIZE + FOOTER_SIZE];
 
             ProgramTitle = CenterStringWithChar('*', " Computational Theory - Final Project ");
             ProgramSubtitle = CenterStringWithChar(' ', " Multi-Tape Turing Machine ");
+
+            SetHeader();
         }
 
-        static void PrintHeader()
+        static void ScreenClearContent()
+        {
+            for (int i = HEADER_SIZE; i < (HEADER_SIZE + CONTENT_SIZE + FOOTER_SIZE); i++)
+            {
+                ScreenBuffer[i] = string.Empty;
+            }
+        }
+
+        static void ScreenWriteContent(int consoleLine, string text)
+        {
+            if (consoleLine >= CONTENT_SIZE) 
+                throw new IndexOutOfRangeException("Invalid console line.");
+
+            string formattedText = text.Length > WINDOW_WIDTH ? string.Format("{0}... ", text.Substring(0, WINDOW_WIDTH - 5)) : text;
+            ScreenBuffer[HEADER_SIZE + consoleLine] = formattedText;
+        }
+
+        static void ScreenWriteFooter(string text)
+        {
+            string formattedText = text.Length > WINDOW_WIDTH ? string.Format("{0}... ", text.Substring(0, WINDOW_WIDTH - 5)) : text;
+            ScreenBuffer[HEADER_SIZE + CONTENT_SIZE + ContentOffset++] = formattedText;
+            if (ContentOffset >= FOOTER_SIZE) ContentOffset = 0;
+        }
+
+        static void ScreenFlush()
         {
             Console.Clear();
-            Console.WriteLine(string.Empty);
-            Console.WriteLine(ProgramTitle);
-            Console.WriteLine(ProgramSubtitle);
-            Console.WriteLine(string.Empty);
-            Console.WriteLine(FormatToLeft("Written by Mauricio Cunille"));
-            Console.WriteLine(FormatToLeft("           Roberto Torres  "));
-            Console.WriteLine(string.Empty);
+            foreach (string line in ScreenBuffer)
+                Console.WriteLine(line);
+            Console.Write(" > ");
+        }
+
+        static void SetHeader()
+        {
+            ScreenBuffer[0] = string.Empty;
+            ScreenBuffer[1] = ProgramTitle;
+            ScreenBuffer[2] = ProgramSubtitle;
+            ScreenBuffer[3] = string.Empty;
+            ScreenBuffer[4] = FormatToLeft("Written by Mauricio Cunille");
+            ScreenBuffer[5] = FormatToLeft("           Roberto Torres  ");
+            ScreenBuffer[6] = string.Empty;
         }
 
         static string CenterStringWithChar(char fillingChar, string text)
