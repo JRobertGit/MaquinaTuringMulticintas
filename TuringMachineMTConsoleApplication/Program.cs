@@ -28,33 +28,7 @@ namespace TuringMachineMTConsoleApplication
         static void Main(string[] args)
         {
             StartScreenHelper();
-
-            StartScreen();
             LoadMenu();
-        }
-
-        static void StartScreen()
-        {
-            ScreenClearContent();
-            ScreenWriteContent(2 , CenterStringWithChar(' ', " ._________________. "));
-            ScreenWriteContent(3 , CenterStringWithChar(' ', " | _______________ | "));
-            ScreenWriteContent(4 , CenterStringWithChar(' ', " | I             I | "));
-            ScreenWriteContent(5 , CenterStringWithChar(' ', " | I             I | "));
-            ScreenWriteContent(6 , CenterStringWithChar(' ', " | I             I | "));
-            ScreenWriteContent(7 , CenterStringWithChar(' ', " | I             I | "));
-            ScreenWriteContent(8 , CenterStringWithChar(' ', " | I_____________I | "));
-            ScreenWriteContent(9 , CenterStringWithChar(' ', " !_________________! "));
-            ScreenWriteContent(10, CenterStringWithChar(' ', "    ._[_______]_.    "));
-            ScreenWriteContent(11, CenterStringWithChar(' ', ".___|___________|___."));
-            ScreenWriteContent(12, CenterStringWithChar(' ', "|::: ____           |"));
-            ScreenWriteContent(13, CenterStringWithChar(' ', "|    ~~~~ [CD-ROM]  |"));
-            ScreenWriteContent(14, CenterStringWithChar(' ', "!___________________!"));
-            ScreenWriteContent(17, FormatToLeft("v 1.0 "));
-
-            ScreenWriteFooter(" Press ENTER to continue...");
-            ScreenFlush();
-
-            Console.ReadLine();
         }
         
         static void LoadMenu()
@@ -64,9 +38,24 @@ namespace TuringMachineMTConsoleApplication
             while (true)
             {
                 ScreenClearContent();
-                ScreenWriteContent(0, " *** Menu Options ***                           ");
-                ScreenWriteContent(2, "              1. Load machine from file.        ");
-                ScreenWriteContent(3, "              2. Create new machine.            ");
+                ScreenWriteContent(2, CenterStringWithChar(' ', " ._________________. "));
+                ScreenWriteContent(3, CenterStringWithChar(' ', " | _______________ | "));
+                ScreenWriteContent(4, CenterStringWithChar(' ', " | I             I | "));
+                ScreenWriteContent(5, CenterStringWithChar(' ', " | I             I | "));
+                ScreenWriteContent(6, CenterStringWithChar(' ', " | I             I | "));
+                ScreenWriteContent(7, CenterStringWithChar(' ', " | I             I | "));
+                ScreenWriteContent(8, CenterStringWithChar(' ', " | I_____________I | "));
+                ScreenWriteContent(9, CenterStringWithChar(' ', " !_________________! "));
+                ScreenWriteContent(10, CenterStringWithChar(' ', "    ._[_______]_.    "));
+                ScreenWriteContent(11, CenterStringWithChar(' ', ".___|___________|___."));
+                ScreenWriteContent(12, CenterStringWithChar(' ', "|::: ____           |"));
+                ScreenWriteContent(13, CenterStringWithChar(' ', "|    ~~~~ [CD-ROM]  |"));
+                ScreenWriteContent(14, CenterStringWithChar(' ', "!___________________!"));
+                ScreenWriteContent(17, FormatToLeft("v 1.5 "));
+
+                ScreenWriteContent(19, " *** Menu Options ***                           ");
+                ScreenWriteContent(21, "              1. Load machine from file.        ");
+                ScreenWriteContent(22, "              2. Create new machine.            ");
 
                 if (invalidOption) ScreenWriteContent(CONTENT_SIZE - 1, " The selected option is not valid... ");
                 ScreenWriteFooter(" Enter the selected option (Press 'x' to exit): ");
@@ -227,11 +216,12 @@ namespace TuringMachineMTConsoleApplication
                 ScreenWriteContent(11, string.Format(" 9.  Accept state:     {0}", acceptStateName));
                 string rejectStateName = (machineDescription.GetRejectState() != null) ? machineDescription.GetRejectState().GetName() : "NULL";
                 ScreenWriteContent(12, string.Format(" 10. Reject state:     {0}", rejectStateName));
+                ScreenWriteContent(13, string.Format(" 11. Left Bounded:     {0}", machineDescription.IsLeftBounded()));
 
-                ScreenWriteContent(14, " *** Machine Options *** ");
-                ScreenWriteContent(16, " 11. Edit transition function.");
-                ScreenWriteContent(17, " 12. Save to file.");
-                ScreenWriteContent(18, " 13. Return.");
+                ScreenWriteContent(15, " *** Machine Options *** ");
+                ScreenWriteContent(17, " 12. Edit transition function.");
+                ScreenWriteContent(18, " 13. Save to file.");
+                ScreenWriteContent(19, " 14. Return.");
 
                 ScreenWriteContent(CONTENT_SIZE - 3, " To edit a value enter the associated number.");
 
@@ -421,9 +411,26 @@ namespace TuringMachineMTConsoleApplication
                         break;
                     case "11":
                         validOption = true;
-                        EditTransitions(machineDescription);
+                        ScreenWriteFooter(" Enter the if the tapes are left bounded: ");
+                        ScreenFlush();
+                        string TMLeftBounded = Console.ReadLine();
+                        try
+                        {
+                            machineDescription.SetLeftBounded(bool.Parse(TMLeftBounded));
+                        }
+                        catch (Exception e)
+                        {
+                            ScreenWriteContent(CONTENT_SIZE - 1, " Error: " + e.Message);
+                            ScreenWriteFooter(" Press ENTER to continue");
+                            ScreenFlush();
+                            Console.ReadLine();
+                        }
                         break;
                     case "12":
+                        validOption = true;
+                        EditTransitions(machineDescription);
+                        break;
+                    case "13":
                         validOption = true;
                         ScreenWriteFooter(" Enter the name for the new file: ");
                         ScreenFlush();
@@ -442,7 +449,7 @@ namespace TuringMachineMTConsoleApplication
                         }
                         ScreenWriteContent(CONTENT_SIZE - 1, " File Saved!");
                         break;
-                    case "13":
+                    case "14":
                         validOption = true;
                         if (isNew)
                         {
@@ -500,7 +507,7 @@ namespace TuringMachineMTConsoleApplication
                     ScreenWriteContent(i + 2, string.Format(" {0}. {1}", elementNumber, transitionsStr[elementNumber]));
                 }
 
-                if (pages > 0)
+                if (pages - 1 > 0)
                 {
                     if (currentPage == 0)
                     {
@@ -691,7 +698,7 @@ namespace TuringMachineMTConsoleApplication
                     ScreenWriteContent(i + 2,string.Format(" {0}", transitions[currentPage * elementsInPage + i]));
                 }
 
-                if (pages > 0)
+                if (pages - 1 > 0)
                 {
                     if (currentPage == 0)
                     {
@@ -968,7 +975,7 @@ namespace TuringMachineMTConsoleApplication
 
                 ScreenWriteContent(22, " You can move a tape by pressing 'R' or 'L' followed by the tape number.");
 
-                if (pages > 0)
+                if (pages - 1 > 0)
                 {
                     if (currentPage == 0)
                     {

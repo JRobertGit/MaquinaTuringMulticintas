@@ -1,0 +1,560 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FormalDescription Name="Binary Addition" Description="A 4-tape turing machine that performs the binary addition on numbers, in reverse order w1#w2." NumberOfTapes="4" BlankSymbol="B" LeftBounded="False">
+  <InputAlphabet>
+    <Symbol>0</Symbol>
+    <Symbol>1</Symbol>
+    <Symbol>#</Symbol>
+  </InputAlphabet>
+  <TapeAlphabet>
+    <Symbol>B</Symbol>
+  </TapeAlphabet>
+  <StatesSet>
+    <MachineState ID="0" Name="q0">
+      <Transitions>
+        <Transition OutputState="q0">
+          <InputSymbols>
+            <Symbol>0</Symbol>
+            <Symbol>B</Symbol>
+            <Symbol>B</Symbol>
+            <Symbol>B</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="0" HeadDirection="RIGHT" />
+            <TapeInstruction TapeID="1" OutputSymbol="B" HeadDirection="STAY" />
+            <TapeInstruction TapeID="2" OutputSymbol="B" HeadDirection="STAY" />
+            <TapeInstruction TapeID="3" OutputSymbol="B" HeadDirection="STAY" />
+          </TapeInstructions>
+        </Transition>
+        <Transition OutputState="q0">
+          <InputSymbols>
+            <Symbol>1</Symbol>
+            <Symbol>B</Symbol>
+            <Symbol>B</Symbol>
+            <Symbol>B</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="1" HeadDirection="RIGHT" />
+            <TapeInstruction TapeID="1" OutputSymbol="B" HeadDirection="STAY" />
+            <TapeInstruction TapeID="2" OutputSymbol="B" HeadDirection="STAY" />
+            <TapeInstruction TapeID="3" OutputSymbol="B" HeadDirection="STAY" />
+          </TapeInstructions>
+        </Transition>
+        <Transition OutputState="q1">
+          <InputSymbols>
+            <Symbol>#</Symbol>
+            <Symbol>B</Symbol>
+            <Symbol>B</Symbol>
+            <Symbol>B</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="#" HeadDirection="RIGHT" />
+            <TapeInstruction TapeID="1" OutputSymbol="B" HeadDirection="STAY" />
+            <TapeInstruction TapeID="2" OutputSymbol="B" HeadDirection="STAY" />
+            <TapeInstruction TapeID="3" OutputSymbol="B" HeadDirection="STAY" />
+          </TapeInstructions>
+        </Transition>
+      </Transitions>
+    </MachineState>
+    <MachineState ID="1" Name="q1">
+      <Transitions>
+        <Transition OutputState="q1">
+          <InputSymbols>
+            <Symbol>1</Symbol>
+            <Symbol>B</Symbol>
+            <Symbol>B</Symbol>
+            <Symbol>B</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="1" HeadDirection="RIGHT" />
+            <TapeInstruction TapeID="1" OutputSymbol="1" HeadDirection="RIGHT" />
+            <TapeInstruction TapeID="2" OutputSymbol="B" HeadDirection="STAY" />
+            <TapeInstruction TapeID="3" OutputSymbol="B" HeadDirection="STAY" />
+          </TapeInstructions>
+        </Transition>
+        <Transition OutputState="q1">
+          <InputSymbols>
+            <Symbol>0</Symbol>
+            <Symbol>B</Symbol>
+            <Symbol>B</Symbol>
+            <Symbol>B</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="0" HeadDirection="RIGHT" />
+            <TapeInstruction TapeID="1" OutputSymbol="0" HeadDirection="RIGHT" />
+            <TapeInstruction TapeID="2" OutputSymbol="B" HeadDirection="STAY" />
+            <TapeInstruction TapeID="3" OutputSymbol="B" HeadDirection="STAY" />
+          </TapeInstructions>
+        </Transition>
+        <Transition OutputState="q2">
+          <InputSymbols>
+            <Symbol>B</Symbol>
+            <Symbol>B</Symbol>
+            <Symbol>B</Symbol>
+            <Symbol>B</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="B" HeadDirection="LEFT" />
+            <TapeInstruction TapeID="1" OutputSymbol="B" HeadDirection="STAY" />
+            <TapeInstruction TapeID="2" OutputSymbol="B" HeadDirection="STAY" />
+            <TapeInstruction TapeID="3" OutputSymbol="B" HeadDirection="STAY" />
+          </TapeInstructions>
+        </Transition>
+      </Transitions>
+    </MachineState>
+    <MachineState ID="2" Name="q2">
+      <Transitions>
+        <Transition OutputState="q2">
+          <InputSymbols>
+            <Symbol>0</Symbol>
+            <Symbol>B</Symbol>
+            <Symbol>B</Symbol>
+            <Symbol>B</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="B" HeadDirection="LEFT" />
+            <TapeInstruction TapeID="1" OutputSymbol="B" HeadDirection="STAY" />
+            <TapeInstruction TapeID="2" OutputSymbol="B" HeadDirection="STAY" />
+            <TapeInstruction TapeID="3" OutputSymbol="B" HeadDirection="STAY" />
+          </TapeInstructions>
+        </Transition>
+        <Transition OutputState="q2">
+          <InputSymbols>
+            <Symbol>1</Symbol>
+            <Symbol>B</Symbol>
+            <Symbol>B</Symbol>
+            <Symbol>B</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="B" HeadDirection="LEFT" />
+            <TapeInstruction TapeID="1" OutputSymbol="B" HeadDirection="STAY" />
+            <TapeInstruction TapeID="2" OutputSymbol="B" HeadDirection="STAY" />
+            <TapeInstruction TapeID="3" OutputSymbol="B" HeadDirection="STAY" />
+          </TapeInstructions>
+        </Transition>
+        <Transition OutputState="q3">
+          <InputSymbols>
+            <Symbol>#</Symbol>
+            <Symbol>B</Symbol>
+            <Symbol>B</Symbol>
+            <Symbol>B</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="B" HeadDirection="LEFT" />
+            <TapeInstruction TapeID="1" OutputSymbol="B" HeadDirection="LEFT" />
+            <TapeInstruction TapeID="2" OutputSymbol="B" HeadDirection="STAY" />
+            <TapeInstruction TapeID="3" OutputSymbol="B" HeadDirection="STAY" />
+          </TapeInstructions>
+        </Transition>
+      </Transitions>
+    </MachineState>
+    <MachineState ID="3" Name="q3">
+      <Transitions>
+        <Transition OutputState="q3">
+          <InputSymbols>
+            <Symbol>0</Symbol>
+            <Symbol>B</Symbol>
+            <Symbol>B</Symbol>
+            <Symbol>B</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="0" HeadDirection="LEFT" />
+            <TapeInstruction TapeID="1" OutputSymbol="B" HeadDirection="STAY" />
+            <TapeInstruction TapeID="2" OutputSymbol="B" HeadDirection="STAY" />
+            <TapeInstruction TapeID="3" OutputSymbol="B" HeadDirection="STAY" />
+          </TapeInstructions>
+        </Transition>
+        <Transition OutputState="q3">
+          <InputSymbols>
+            <Symbol>1</Symbol>
+            <Symbol>B</Symbol>
+            <Symbol>B</Symbol>
+            <Symbol>B</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="1" HeadDirection="LEFT" />
+            <TapeInstruction TapeID="1" OutputSymbol="B" HeadDirection="STAY" />
+            <TapeInstruction TapeID="2" OutputSymbol="B" HeadDirection="STAY" />
+            <TapeInstruction TapeID="3" OutputSymbol="B" HeadDirection="STAY" />
+          </TapeInstructions>
+        </Transition>
+        <Transition OutputState="q3">
+          <InputSymbols>
+            <Symbol>0</Symbol>
+            <Symbol>0</Symbol>
+            <Symbol>B</Symbol>
+            <Symbol>B</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="0" HeadDirection="LEFT" />
+            <TapeInstruction TapeID="1" OutputSymbol="0" HeadDirection="LEFT" />
+            <TapeInstruction TapeID="2" OutputSymbol="B" HeadDirection="STAY" />
+            <TapeInstruction TapeID="3" OutputSymbol="B" HeadDirection="STAY" />
+          </TapeInstructions>
+        </Transition>
+        <Transition OutputState="q3">
+          <InputSymbols>
+            <Symbol>0</Symbol>
+            <Symbol>1</Symbol>
+            <Symbol>B</Symbol>
+            <Symbol>B</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="0" HeadDirection="LEFT" />
+            <TapeInstruction TapeID="1" OutputSymbol="1" HeadDirection="LEFT" />
+            <TapeInstruction TapeID="2" OutputSymbol="B" HeadDirection="STAY" />
+            <TapeInstruction TapeID="3" OutputSymbol="B" HeadDirection="STAY" />
+          </TapeInstructions>
+        </Transition>
+        <Transition OutputState="q3">
+          <InputSymbols>
+            <Symbol>1</Symbol>
+            <Symbol>0</Symbol>
+            <Symbol>B</Symbol>
+            <Symbol>B</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="1" HeadDirection="LEFT" />
+            <TapeInstruction TapeID="1" OutputSymbol="0" HeadDirection="LEFT" />
+            <TapeInstruction TapeID="2" OutputSymbol="B" HeadDirection="STAY" />
+            <TapeInstruction TapeID="3" OutputSymbol="B" HeadDirection="STAY" />
+          </TapeInstructions>
+        </Transition>
+        <Transition OutputState="q3">
+          <InputSymbols>
+            <Symbol>1</Symbol>
+            <Symbol>1</Symbol>
+            <Symbol>B</Symbol>
+            <Symbol>B</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="1" HeadDirection="LEFT" />
+            <TapeInstruction TapeID="1" OutputSymbol="1" HeadDirection="LEFT" />
+            <TapeInstruction TapeID="2" OutputSymbol="B" HeadDirection="STAY" />
+            <TapeInstruction TapeID="3" OutputSymbol="B" HeadDirection="STAY" />
+          </TapeInstructions>
+        </Transition>
+        <Transition OutputState="q3">
+          <InputSymbols>
+            <Symbol>B</Symbol>
+            <Symbol>0</Symbol>
+            <Symbol>B</Symbol>
+            <Symbol>B</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="B" HeadDirection="STAY" />
+            <TapeInstruction TapeID="1" OutputSymbol="0" HeadDirection="LEFT" />
+            <TapeInstruction TapeID="2" OutputSymbol="B" HeadDirection="STAY" />
+            <TapeInstruction TapeID="3" OutputSymbol="B" HeadDirection="STAY" />
+          </TapeInstructions>
+        </Transition>
+        <Transition OutputState="q3">
+          <InputSymbols>
+            <Symbol>B</Symbol>
+            <Symbol>1</Symbol>
+            <Symbol>B</Symbol>
+            <Symbol>B</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="B" HeadDirection="STAY" />
+            <TapeInstruction TapeID="1" OutputSymbol="1" HeadDirection="LEFT" />
+            <TapeInstruction TapeID="2" OutputSymbol="B" HeadDirection="STAY" />
+            <TapeInstruction TapeID="3" OutputSymbol="B" HeadDirection="STAY" />
+          </TapeInstructions>
+        </Transition>
+        <Transition OutputState="q4">
+          <InputSymbols>
+            <Symbol>B</Symbol>
+            <Symbol>B</Symbol>
+            <Symbol>B</Symbol>
+            <Symbol>B</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="B" HeadDirection="RIGHT" />
+            <TapeInstruction TapeID="1" OutputSymbol="B" HeadDirection="RIGHT" />
+            <TapeInstruction TapeID="2" OutputSymbol="0" HeadDirection="STAY" />
+            <TapeInstruction TapeID="3" OutputSymbol="B" HeadDirection="STAY" />
+          </TapeInstructions>
+        </Transition>
+      </Transitions>
+    </MachineState>
+    <MachineState ID="4" Name="q4">
+      <Transitions>
+        <Transition OutputState="q4">
+          <InputSymbols>
+            <Symbol>0</Symbol>
+            <Symbol>1</Symbol>
+            <Symbol>0</Symbol>
+            <Symbol>B</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="0" HeadDirection="RIGHT" />
+            <TapeInstruction TapeID="1" OutputSymbol="1" HeadDirection="RIGHT" />
+            <TapeInstruction TapeID="2" OutputSymbol="0" HeadDirection="STAY" />
+            <TapeInstruction TapeID="3" OutputSymbol="1" HeadDirection="RIGHT" />
+          </TapeInstructions>
+        </Transition>
+        <Transition OutputState="q4">
+          <InputSymbols>
+            <Symbol>0</Symbol>
+            <Symbol>1</Symbol>
+            <Symbol>1</Symbol>
+            <Symbol>B</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="0" HeadDirection="RIGHT" />
+            <TapeInstruction TapeID="1" OutputSymbol="1" HeadDirection="RIGHT" />
+            <TapeInstruction TapeID="2" OutputSymbol="1" HeadDirection="STAY" />
+            <TapeInstruction TapeID="3" OutputSymbol="0" HeadDirection="RIGHT" />
+          </TapeInstructions>
+        </Transition>
+        <Transition OutputState="q4">
+          <InputSymbols>
+            <Symbol>1</Symbol>
+            <Symbol>0</Symbol>
+            <Symbol>0</Symbol>
+            <Symbol>B</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="1" HeadDirection="RIGHT" />
+            <TapeInstruction TapeID="1" OutputSymbol="0" HeadDirection="RIGHT" />
+            <TapeInstruction TapeID="2" OutputSymbol="0" HeadDirection="STAY" />
+            <TapeInstruction TapeID="3" OutputSymbol="1" HeadDirection="RIGHT" />
+          </TapeInstructions>
+        </Transition>
+        <Transition OutputState="q4">
+          <InputSymbols>
+            <Symbol>1</Symbol>
+            <Symbol>0</Symbol>
+            <Symbol>1</Symbol>
+            <Symbol>B</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="1" HeadDirection="RIGHT" />
+            <TapeInstruction TapeID="1" OutputSymbol="0" HeadDirection="RIGHT" />
+            <TapeInstruction TapeID="2" OutputSymbol="1" HeadDirection="STAY" />
+            <TapeInstruction TapeID="3" OutputSymbol="0" HeadDirection="RIGHT" />
+          </TapeInstructions>
+        </Transition>
+        <Transition OutputState="q4">
+          <InputSymbols>
+            <Symbol>1</Symbol>
+            <Symbol>1</Symbol>
+            <Symbol>0</Symbol>
+            <Symbol>B</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="1" HeadDirection="RIGHT" />
+            <TapeInstruction TapeID="1" OutputSymbol="1" HeadDirection="RIGHT" />
+            <TapeInstruction TapeID="2" OutputSymbol="1" HeadDirection="STAY" />
+            <TapeInstruction TapeID="3" OutputSymbol="0" HeadDirection="RIGHT" />
+          </TapeInstructions>
+        </Transition>
+        <Transition OutputState="q4">
+          <InputSymbols>
+            <Symbol>1</Symbol>
+            <Symbol>1</Symbol>
+            <Symbol>1</Symbol>
+            <Symbol>B</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="1" HeadDirection="RIGHT" />
+            <TapeInstruction TapeID="1" OutputSymbol="1" HeadDirection="RIGHT" />
+            <TapeInstruction TapeID="2" OutputSymbol="1" HeadDirection="STAY" />
+            <TapeInstruction TapeID="3" OutputSymbol="1" HeadDirection="RIGHT" />
+          </TapeInstructions>
+        </Transition>
+        <Transition OutputState="q4">
+          <InputSymbols>
+            <Symbol>0</Symbol>
+            <Symbol>0</Symbol>
+            <Symbol>1</Symbol>
+            <Symbol>B</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="0" HeadDirection="RIGHT" />
+            <TapeInstruction TapeID="1" OutputSymbol="0" HeadDirection="RIGHT" />
+            <TapeInstruction TapeID="2" OutputSymbol="0" HeadDirection="STAY" />
+            <TapeInstruction TapeID="3" OutputSymbol="1" HeadDirection="RIGHT" />
+          </TapeInstructions>
+        </Transition>
+        <Transition OutputState="q4">
+          <InputSymbols>
+            <Symbol>0</Symbol>
+            <Symbol>0</Symbol>
+            <Symbol>0</Symbol>
+            <Symbol>B</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="0" HeadDirection="RIGHT" />
+            <TapeInstruction TapeID="1" OutputSymbol="0" HeadDirection="RIGHT" />
+            <TapeInstruction TapeID="2" OutputSymbol="0" HeadDirection="STAY" />
+            <TapeInstruction TapeID="3" OutputSymbol="0" HeadDirection="RIGHT" />
+          </TapeInstructions>
+        </Transition>
+        <Transition OutputState="q4">
+          <InputSymbols>
+            <Symbol>B</Symbol>
+            <Symbol>B</Symbol>
+            <Symbol>0</Symbol>
+            <Symbol>B</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="B" HeadDirection="STAY" />
+            <TapeInstruction TapeID="1" OutputSymbol="B" HeadDirection="STAY" />
+            <TapeInstruction TapeID="2" OutputSymbol="B" HeadDirection="STAY" />
+            <TapeInstruction TapeID="3" OutputSymbol="0" HeadDirection="RIGHT" />
+          </TapeInstructions>
+        </Transition>
+        <Transition OutputState="q4">
+          <InputSymbols>
+            <Symbol>B</Symbol>
+            <Symbol>B</Symbol>
+            <Symbol>1</Symbol>
+            <Symbol>B</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="B" HeadDirection="STAY" />
+            <TapeInstruction TapeID="1" OutputSymbol="B" HeadDirection="STAY" />
+            <TapeInstruction TapeID="2" OutputSymbol="B" HeadDirection="STAY" />
+            <TapeInstruction TapeID="3" OutputSymbol="1" HeadDirection="RIGHT" />
+          </TapeInstructions>
+        </Transition>
+        <Transition OutputState="q5">
+          <InputSymbols>
+            <Symbol>B</Symbol>
+            <Symbol>B</Symbol>
+            <Symbol>B</Symbol>
+            <Symbol>B</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="B" HeadDirection="STAY" />
+            <TapeInstruction TapeID="1" OutputSymbol="B" HeadDirection="STAY" />
+            <TapeInstruction TapeID="2" OutputSymbol="B" HeadDirection="STAY" />
+            <TapeInstruction TapeID="3" OutputSymbol="B" HeadDirection="STAY" />
+          </TapeInstructions>
+        </Transition>
+        <Transition OutputState="q4">
+          <InputSymbols>
+            <Symbol>B</Symbol>
+            <Symbol>1</Symbol>
+            <Symbol>0</Symbol>
+            <Symbol>B</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="B" HeadDirection="STAY" />
+            <TapeInstruction TapeID="1" OutputSymbol="1" HeadDirection="RIGHT" />
+            <TapeInstruction TapeID="2" OutputSymbol="0" HeadDirection="STAY" />
+            <TapeInstruction TapeID="3" OutputSymbol="1" HeadDirection="RIGHT" />
+          </TapeInstructions>
+        </Transition>
+        <Transition OutputState="q4">
+          <InputSymbols>
+            <Symbol>B</Symbol>
+            <Symbol>1</Symbol>
+            <Symbol>1</Symbol>
+            <Symbol>B</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="B" HeadDirection="STAY" />
+            <TapeInstruction TapeID="1" OutputSymbol="1" HeadDirection="RIGHT" />
+            <TapeInstruction TapeID="2" OutputSymbol="1" HeadDirection="STAY" />
+            <TapeInstruction TapeID="3" OutputSymbol="0" HeadDirection="RIGHT" />
+          </TapeInstructions>
+        </Transition>
+        <Transition OutputState="q4">
+          <InputSymbols>
+            <Symbol>B</Symbol>
+            <Symbol>0</Symbol>
+            <Symbol>0</Symbol>
+            <Symbol>B</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="B" HeadDirection="STAY" />
+            <TapeInstruction TapeID="1" OutputSymbol="0" HeadDirection="RIGHT" />
+            <TapeInstruction TapeID="2" OutputSymbol="0" HeadDirection="STAY" />
+            <TapeInstruction TapeID="3" OutputSymbol="0" HeadDirection="RIGHT" />
+          </TapeInstructions>
+        </Transition>
+        <Transition OutputState="q4">
+          <InputSymbols>
+            <Symbol>B</Symbol>
+            <Symbol>0</Symbol>
+            <Symbol>1</Symbol>
+            <Symbol>B</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="B" HeadDirection="STAY" />
+            <TapeInstruction TapeID="1" OutputSymbol="0" HeadDirection="RIGHT" />
+            <TapeInstruction TapeID="2" OutputSymbol="0" HeadDirection="STAY" />
+            <TapeInstruction TapeID="3" OutputSymbol="1" HeadDirection="RIGHT" />
+          </TapeInstructions>
+        </Transition>
+        <Transition OutputState="q4">
+          <InputSymbols>
+            <Symbol>0</Symbol>
+            <Symbol>B</Symbol>
+            <Symbol>0</Symbol>
+            <Symbol>B</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="0" HeadDirection="RIGHT" />
+            <TapeInstruction TapeID="1" OutputSymbol="B" HeadDirection="STAY" />
+            <TapeInstruction TapeID="2" OutputSymbol="0" HeadDirection="STAY" />
+            <TapeInstruction TapeID="3" OutputSymbol="0" HeadDirection="RIGHT" />
+          </TapeInstructions>
+        </Transition>
+        <Transition OutputState="q4">
+          <InputSymbols>
+            <Symbol>0</Symbol>
+            <Symbol>B</Symbol>
+            <Symbol>1</Symbol>
+            <Symbol>B</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="0" HeadDirection="RIGHT" />
+            <TapeInstruction TapeID="1" OutputSymbol="B" HeadDirection="STAY" />
+            <TapeInstruction TapeID="2" OutputSymbol="0" HeadDirection="STAY" />
+            <TapeInstruction TapeID="3" OutputSymbol="1" HeadDirection="RIGHT" />
+          </TapeInstructions>
+        </Transition>
+        <Transition OutputState="q4">
+          <InputSymbols>
+            <Symbol>1</Symbol>
+            <Symbol>B</Symbol>
+            <Symbol>0</Symbol>
+            <Symbol>B</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="1" HeadDirection="RIGHT" />
+            <TapeInstruction TapeID="1" OutputSymbol="B" HeadDirection="STAY" />
+            <TapeInstruction TapeID="2" OutputSymbol="0" HeadDirection="STAY" />
+            <TapeInstruction TapeID="3" OutputSymbol="1" HeadDirection="RIGHT" />
+          </TapeInstructions>
+        </Transition>
+        <Transition OutputState="q4">
+          <InputSymbols>
+            <Symbol>1</Symbol>
+            <Symbol>B</Symbol>
+            <Symbol>1</Symbol>
+            <Symbol>B</Symbol>
+          </InputSymbols>
+          <TapeInstructions>
+            <TapeInstruction TapeID="0" OutputSymbol="1" HeadDirection="RIGHT" />
+            <TapeInstruction TapeID="1" OutputSymbol="B" HeadDirection="STAY" />
+            <TapeInstruction TapeID="2" OutputSymbol="1" HeadDirection="STAY" />
+            <TapeInstruction TapeID="3" OutputSymbol="0" HeadDirection="RIGHT" />
+          </TapeInstructions>
+        </Transition>
+      </Transitions>
+    </MachineState>
+    <MachineState ID="5" Name="q5">
+      <Transitions />
+    </MachineState>
+    <MachineState ID="6" Name="q6">
+      <Transitions />
+    </MachineState>
+  </StatesSet>
+  <AcceptState StateName="q5" />
+  <RejectState StateName="q6" />
+  <InitialState StateName="q0" />
+</FormalDescription>
