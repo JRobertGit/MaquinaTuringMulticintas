@@ -88,6 +88,15 @@ namespace TuringMachineMT
         }
 
         /// <summary>
+        /// Gets the state transitions.
+        /// </summary>
+        /// <returns>The state transitions.</returns>
+        public List<Transition> GetTransitions()
+        {
+            return this.transitions.ToList<Transition>();
+        }
+
+        /// <summary>
         /// Gets the state transitions in the form (Qi, I1, I2,..., Ik) -> (Qo, O1, O2,..., Ok, D1, D2,..., Dk)
         /// </summary>
         /// <returns>The state transitions.</returns>
@@ -173,6 +182,19 @@ namespace TuringMachineMT
         public void AddTransition(Transition transition)
         {
             this.transitions.Add(transition);
+        }
+
+        #endregion
+
+        #region RemoveMethods
+
+        /// <summary>
+        /// Removes a given transition.
+        /// </summary>
+        /// <param name="transition"></param>
+        public void RemoveTransition(Transition transition)
+        {
+            this.transitions.Remove(transition);
         }
 
         #endregion

@@ -574,6 +574,38 @@ namespace TuringMachineMT
 
         #endregion
 
+        #region RemoveMethods
+
+        /// <summary>
+        /// Removes all the states in the state set.
+        /// </summary>
+        public void RemoveStatesSet()
+        {
+            this.machineStates = new HashSet<MachineState>();
+            this.initialState = null;
+            this.acceptState = null;
+            this.rejectState = null;
+        }
+
+        /// <summary>
+        /// Removes all the symbols from the input alphabet.
+        /// </summary>
+        public void RemoveInputAlphabet()
+        {
+            this.inputAlphabet = new HashSet<char>();
+        }
+
+        /// <summary>
+        /// Removes all the symbols from the tape alphabet.
+        /// </summary>
+        public void RemoveTapeAlphabet()
+        {
+            this.tapeAlphabet = new HashSet<char>();
+            this.blankSymbol = ' ';
+        }
+
+        #endregion
+
         #region VerificationMethods
 
         /// <summary>

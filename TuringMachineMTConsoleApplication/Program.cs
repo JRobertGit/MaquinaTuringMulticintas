@@ -83,6 +83,7 @@ namespace TuringMachineMTConsoleApplication
                         break;
                     case "2":
                         invalidOption = false;
+                        EditFormalDescription(new FormalDescription(), true);
                         break;
                     default:
                         invalidOption = true;
@@ -192,11 +193,468 @@ namespace TuringMachineMTConsoleApplication
                         break;
                     case "4":
                         validOption = true;
+                        EditFormalDescription(machineDescription, false);
                         break;
                     default:
                         validOption = false;
                         break;
                 }
+            }
+        }
+
+        static void EditFormalDescription(FormalDescription machineDescription, bool isNew)
+        {
+            string option = string.Empty;
+            bool validOption = true;
+
+            while (true)
+            {
+                ScreenClearContent();
+                if (isNew)
+                    ScreenWriteContent(0, " *** Machine Formal Description - Creator ***");
+                else
+                    ScreenWriteContent(0, " *** Machine Formal Description - Editor ***");
+                ScreenWriteContent(2, string.Format(" 1.  Machine name:     {0}", machineDescription.GetName()));
+                ScreenWriteContent(3, string.Format(" 2.  Description:      {0}", machineDescription.GetDescription()));
+                ScreenWriteContent(4, string.Format(" 3.  Number of tapes:  {0}", machineDescription.GetNumberOfTapes().ToString()));
+                ScreenWriteContent(6, string.Format(" 4.  States set:       {0}", machineDescription.GetMachineStatesAsString()));
+                ScreenWriteContent(7, string.Format(" 5.  Input alphabet:   {0}", machineDescription.GetInputAlphabetAsString()));
+                ScreenWriteContent(8, string.Format(" 6.  Tape alphabet:    {0}", machineDescription.GetTapeAlphabetAsString()));
+                ScreenWriteContent(9, string.Format(" 7.  Blank symbol:     {0}", machineDescription.GetBlankSymbol()));
+                string initialStateName = (machineDescription.GetInitialState() != null) ? machineDescription.GetInitialState().GetName() : "NULL";
+                ScreenWriteContent(10, string.Format(" 8.  Initial state:    {0}", initialStateName));
+                string acceptStateName = (machineDescription.GetAcceptState() != null) ? machineDescription.GetAcceptState().GetName() : "NULL";
+                ScreenWriteContent(11, string.Format(" 9.  Accept state:     {0}", acceptStateName));
+                string rejectStateName = (machineDescription.GetRejectState() != null) ? machineDescription.GetRejectState().GetName() : "NULL";
+                ScreenWriteContent(12, string.Format(" 10. Reject state:     {0}", rejectStateName));
+
+                ScreenWriteContent(14, " *** Machine Options *** ");
+                ScreenWriteContent(16, " 11. Edit transition function.");
+                ScreenWriteContent(17, " 12. Save to file.");
+                ScreenWriteContent(18, " 13. Return.");
+
+                ScreenWriteContent(CONTENT_SIZE - 3, " To edit a value enter the associated number.");
+
+                if (!validOption) ScreenWriteContent(CONTENT_SIZE - 1, " The selected option is not valid... ");
+                ScreenWriteFooter(" Enter the selected option: ");
+                ScreenFlush();
+
+                option = Console.ReadLine();
+
+                switch (option)
+                {
+                    case "1":
+                        validOption = true;
+                        ScreenWriteFooter(" Enter a new name: ");
+                        ScreenFlush();
+                        string TMName = Console.ReadLine();
+                        machineDescription.SetName(TMName);
+                        break;
+                    case "2":
+                        validOption = true;
+                        ScreenWriteFooter(" Enter a new description: ");
+                        ScreenFlush();
+                        string TMDescription = Console.ReadLine();
+                        machineDescription.SetDescription(TMDescription);
+                        break;
+                    case "3":
+                        validOption = true;
+                        ScreenWriteFooter(" Enter the number of tapes: ");
+                        ScreenFlush();
+                        string TMNumberOfTapesStr = Console.ReadLine();
+                        int TMNumberOfTapes = 0;
+                        if (!int.TryParse(TMNumberOfTapesStr, out TMNumberOfTapes))
+                        {
+                            ScreenWriteContent(CONTENT_SIZE - 1, " The input data wasn't valid... ");
+                            ScreenWriteFooter(" Press ENTER to continue");
+                            ScreenFlush();
+                            Console.ReadLine();
+                        }
+                        else
+                        {
+                            try
+                            {
+                                machineDescription.SetNumberOfTapes(TMNumberOfTapes);
+                            }
+                            catch (Exception e)
+                            {
+                                ScreenWriteContent(CONTENT_SIZE - 1, " Error: " + e.Message);
+                                ScreenWriteFooter(" Press ENTER to continue");
+                                ScreenFlush();
+                                Console.ReadLine();
+                            }
+                        }
+                        break;
+                    case "4":
+                        validOption = true;
+                        ScreenWriteFooter(" Enter the states set {q0,q1,...,qn}: ");
+                        ScreenFlush();
+                        string TMStatesSetStr = Console.ReadLine();
+                        string[] TMStates = TMStatesSetStr.Substring(1, TMStatesSetStr.Length - 2).Split(',');
+                        machineDescription.RemoveStatesSet();
+                        try
+                        {
+                            foreach (string state in TMStates)
+                            {
+                                machineDescription.AddMachineState(state);
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            ScreenWriteContent(CONTENT_SIZE - 1, " Error: " + e.Message);
+                            ScreenWriteFooter(" Press ENTER to continue");
+                            ScreenFlush();
+                            Console.ReadLine();
+                        }
+                        break;
+                    case "5":
+                        validOption = true;
+                        ScreenWriteFooter(" Enter the input alphabet {s0,s1,...,sn}: ");
+                        ScreenFlush();
+                        string TMInputAlphabetStr = Console.ReadLine();
+                        string[] TMInputAlphabet = TMInputAlphabetStr.Substring(1, TMInputAlphabetStr.Length - 2).Split(',');
+                        machineDescription.RemoveInputAlphabet();
+                        try
+                        {
+                            foreach (string symbol in TMInputAlphabet)
+                            {
+                                machineDescription.AddSymbolToInputAlphabet(symbol[0]);
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            ScreenWriteContent(CONTENT_SIZE - 1, " Error: " + e.Message);
+                            ScreenWriteFooter(" Press ENTER to continue");
+                            ScreenFlush();
+                            Console.ReadLine();
+                        }
+                        break;
+                    case "6":
+                        validOption = true;
+                        ScreenWriteFooter(" Enter the tape alphabet {s0, s1,..., sn}: ");
+                        ScreenFlush();
+                        string TMTapeAlphabetStr = Console.ReadLine();
+                        string[] TMTapeAlphabet = TMTapeAlphabetStr.Substring(1, TMTapeAlphabetStr.Length - 2).Split(',');
+                        machineDescription.RemoveTapeAlphabet();
+                        try
+                        {
+                            foreach (string symbol in TMTapeAlphabet)
+                            {
+                                machineDescription.AddSymbolToTapeAlphabet(symbol[0]);
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            ScreenWriteContent(CONTENT_SIZE - 1, " Error: " + e.Message);
+                            ScreenWriteFooter(" Press ENTER to continue");
+                            ScreenFlush();
+                            Console.ReadLine();
+                        }
+                        break;
+                    case "7":
+                        validOption = true;
+                        ScreenWriteFooter(" Enter the blank symbol: ");
+                        ScreenFlush();
+                        char blankSymbol = Console.ReadLine()[0];
+                        try
+                        {
+                            machineDescription.SetBlankSymbol(blankSymbol);
+                        }
+                        catch (Exception e)
+                        {
+                            ScreenWriteContent(CONTENT_SIZE - 1, " Error: " + e.Message);
+                            ScreenWriteFooter(" Press ENTER to continue");
+                            ScreenFlush();
+                            Console.ReadLine();
+                        }
+                        break;
+                    case "8":
+                        validOption = true;
+                        ScreenWriteFooter(" Enter the initial state name: ");
+                        ScreenFlush();
+                        string TMInitialState = Console.ReadLine();
+                        try
+                        {
+                            machineDescription.SetInitialState(machineDescription.GetMachineState(TMInitialState));
+                        }
+                        catch (Exception e)
+                        {
+                            ScreenWriteContent(CONTENT_SIZE - 1, " Error: " + e.Message);
+                            ScreenWriteFooter(" Press ENTER to continue");
+                            ScreenFlush();
+                            Console.ReadLine();
+                        }
+                        break;
+                    case "9":
+                        validOption = true;
+                        ScreenWriteFooter(" Enter the accept state name: ");
+                        ScreenFlush();
+                        string TMAcceptState = Console.ReadLine();
+                        try
+                        {
+                            machineDescription.SetAcceptState(machineDescription.GetMachineState(TMAcceptState));
+                        }
+                        catch (Exception e)
+                        {
+                            ScreenWriteContent(CONTENT_SIZE - 1, " Error: " + e.Message);
+                            ScreenWriteFooter(" Press ENTER to continue");
+                            ScreenFlush();
+                            Console.ReadLine();
+                        }
+                        break;
+                    case "10":
+                        validOption = true;
+                        ScreenWriteFooter(" Enter the reject state name: ");
+                        ScreenFlush();
+                        string TMRejectState = Console.ReadLine();
+                        try
+                        {
+                            machineDescription.SetRejectState(machineDescription.GetMachineState(TMRejectState));
+                        }
+                        catch (Exception e)
+                        {
+                            ScreenWriteContent(CONTENT_SIZE - 1, " Error: " + e.Message);
+                            ScreenWriteFooter(" Press ENTER to continue");
+                            ScreenFlush();
+                            Console.ReadLine();
+                        }
+                        break;
+                    case "11":
+                        validOption = true;
+                        EditTransitions(machineDescription);
+                        break;
+                    case "12":
+                        validOption = true;
+                        ScreenWriteFooter(" Enter the name for the new file: ");
+                        ScreenFlush();
+                        string filename = Console.ReadLine();
+                        try
+                        {
+                            machineDescription.Save(filename);
+                        }
+                        catch (Exception e)
+                        {
+                            ScreenWriteContent(CONTENT_SIZE - 1, " Error: " + e.Message);
+                            ScreenWriteFooter(" Press ENTER to continue");
+                            ScreenFlush();
+                            Console.ReadLine();
+                            break;
+                        }
+                        ScreenWriteContent(CONTENT_SIZE - 1, " File Saved!");
+                        break;
+                    case "13":
+                        validOption = true;
+                        if (isNew)
+                        {
+                            ScreenWriteContent(CONTENT_SIZE - 1, " You will loose any unsaved data.");
+                            ScreenWriteFooter(" Exit? (y or n):");
+                            ScreenFlush();
+                            string answrer = Console.ReadLine();
+                            if (answrer.Equals("n")) break;
+                        }
+                        return;
+                    default:
+                        validOption = false;
+                        break;
+                }
+            }
+        }
+
+        static void EditTransitions(FormalDescription machineDescription)
+        {
+            int currentPage = 0;
+            bool validOption = true;
+            string option = string.Empty;
+            while (true)
+            {
+                ScreenClearContent();
+                ScreenWriteContent(0, " *** Machine Transition Function - Editor ***");
+
+                MachineState[] states = machineDescription.GetMachineStatesSet();
+                List<string> transitionsStr = new List<string>();
+                List<Transition> transitions = new List<Transition>();
+
+                foreach (MachineState state in states)
+                {
+                    foreach (string transition in state.GetTransitionsAsString())
+                    {
+                        transitionsStr.Add(transition);
+                    }
+
+                    foreach (Transition transition in state.GetTransitions())
+                    {
+                        transitions.Add(transition);
+                    }
+                }
+
+                int elementsInPage = 10;
+                int pages = transitionsStr.Count / elementsInPage;
+                if (transitionsStr.Count % elementsInPage != 0 && pages > 0) pages++;
+
+                for (int i = 0; i < elementsInPage; i++)
+                {
+                    int elementNumber = currentPage * elementsInPage + i;
+
+                    if (elementNumber >= transitionsStr.Count)
+                        break;
+                    ScreenWriteContent(i + 2, string.Format(" {0}. {1}", elementNumber, transitionsStr[elementNumber]));
+                }
+
+                if (pages > 0)
+                {
+                    if (currentPage == 0)
+                    {
+                        ScreenWriteContent(13, " Press 'n' for next page");
+                        ScreenWriteContent(14, string.Empty);
+                    }
+                    else if (currentPage == pages - 1)
+                    {
+                        ScreenWriteContent(13, " Press 'p' for prev page");
+                        ScreenWriteContent(14, string.Empty);
+                    }
+                    else
+                    {
+                        ScreenWriteContent(13, " Press 'n' for next page");
+                        ScreenWriteContent(14, " Press 'p' for prev page");
+                    }
+                }
+
+                ScreenWriteContent(16, " *** Transition Options *** ");
+                ScreenWriteContent(18, " a. Add new transition.");
+                ScreenWriteContent(19, " d. Delete transition.");
+
+                ScreenWriteContent(CONTENT_SIZE - 3, " To edit a value enter the associated number.");
+                if (!validOption) ScreenWriteContent(CONTENT_SIZE - 1, " The selected option is not valid... ");
+                ScreenWriteFooter(" Enter the selected option (Press 'r' to return): ");
+                ScreenFlush();
+
+                option = Console.ReadLine();
+
+                if (option.Equals("r")) return;
+
+                switch (option)
+                {
+                    case "n":
+                        if (pages > 0 && currentPage < pages - 1)
+                        {
+                            validOption = true;
+                            currentPage++;
+                        }
+                        else
+                        {
+                            validOption = false;
+                        }
+                        break;
+                    case "p":
+                        if (pages > 0 && currentPage > 0)
+                        {
+                            validOption = true;
+                            currentPage--;
+                        }
+                        else
+                        {
+                            validOption = false;
+                        }
+                        break;
+                    case "a":
+                        AddNewTransition(machineDescription);
+                        break;
+                    case "d":
+                        validOption = true;
+                        ScreenWriteFooter(" Enter the transition number from above: ");
+                        ScreenFlush();
+                        string numberStr = Console.ReadLine();
+                        try
+                        {
+                            int number = int.Parse(numberStr);
+
+                            string currentTransition = transitionsStr[number].Substring(1);
+                            string currentStateName = currentTransition.Split(',')[0];
+                            currentStateName = currentStateName.Substring(0, currentStateName.Length);
+
+                            machineDescription.GetMachineState(currentStateName).RemoveTransition(transitions[number]);
+                        }
+                        catch (Exception e)
+                        {
+                            ScreenWriteContent(CONTENT_SIZE - 1, " Error: " + e.Message);
+                            ScreenWriteFooter(" Press ENTER to continue");
+                            ScreenFlush();
+                            Console.ReadLine();
+                        }
+                        break;
+                    default:
+                        int optionNumber = 0;
+                        if (int.TryParse(option, out optionNumber))
+                        {
+                            if (optionNumber >= 0 && optionNumber < transitionsStr.Count)
+                            {
+                                validOption = true;
+
+                                string currentTransition = transitionsStr[optionNumber].Substring(1);
+                                string currentStateName = currentTransition.Split(',')[0];
+                                currentStateName = currentStateName.Substring(0, currentStateName.Length);
+                                machineDescription.GetMachineState(currentStateName).RemoveTransition(transitions[optionNumber]);
+                                AddNewTransition(machineDescription);
+                            }
+                            else
+                            {
+                                validOption = false;
+                            }
+                        }
+                        else
+                        {
+                            validOption = false;
+                        }
+                        break;
+                }
+            }
+        }
+
+        static void AddNewTransition(FormalDescription machineDescription)
+        {
+            ScreenWriteFooter(" Enter the input state name: ");
+            ScreenFlush();
+            string inputStateName = Console.ReadLine();
+            ScreenWriteFooter(" Enter the k-input symbols {s1,s2,...,sk}: ");
+            ScreenFlush();
+            string inputSymbolsStr = Console.ReadLine();
+            ScreenWriteFooter(" Enter the output state name: ");
+            ScreenFlush();
+            string outputStateName = Console.ReadLine();
+            ScreenWriteFooter(" Enter the k-output symbols {s1,s2,...,sk}: ");
+            ScreenFlush();
+            string outputSymbolsStr = Console.ReadLine();
+            ScreenWriteFooter(" Enter the k-head directions {RIGHT,LEFT,...,STAY}: ");
+            ScreenFlush();
+            string headDirectionsStr = Console.ReadLine();
+
+            try
+            {
+                string[] inputSymbols = inputSymbolsStr.Substring(1, inputSymbolsStr.Length - 2).Split(',');
+                char[] inputSymbolsChar = new char[inputSymbols.Length];
+                string[] outputSymbols = outputSymbolsStr.Substring(1, outputSymbolsStr.Length - 2).Split(',');
+                char[] outputSymbolsChar = new char[outputSymbols.Length];
+                string[] headDirections = headDirectionsStr.Substring(1, headDirectionsStr.Length - 2).Split(',');
+                Tape.Direction[] headDirectionsEnum = new Tape.Direction[headDirections.Length];
+
+                for (int i = 0; i < inputSymbolsChar.Length; i++)
+                {
+                    inputSymbolsChar[i] = inputSymbols[i][0];
+                    outputSymbolsChar[i] = outputSymbols[i][0];
+                    headDirectionsEnum[i] = (Tape.Direction)Enum.Parse(typeof(Tape.Direction), headDirections[i]);
+                }
+
+                MachineState inputState = machineDescription.GetMachineState(inputStateName);
+                MachineState outputState = machineDescription.GetMachineState(outputStateName);
+
+                machineDescription.AddTransition(inputState, inputSymbolsChar, outputState, outputSymbolsChar, headDirectionsEnum);
+            }
+            catch (Exception e)
+            {
+                ScreenWriteContent(CONTENT_SIZE - 1, " Error: " + e.Message);
+                ScreenWriteFooter(" Press ENTER to continue");
+                ScreenFlush();
+                Console.ReadLine();
             }
         }
 
@@ -258,7 +716,7 @@ namespace TuringMachineMTConsoleApplication
 
                 option = Console.ReadLine();
 
-                if (option.Equals("x")) return;
+                if (option.Equals("r")) return;
 
                 switch (option)
                 {
